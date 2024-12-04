@@ -1,0 +1,73 @@
+dt = 1
+totalT = 1
+
+################# SBM #################
+RatioGPSBM = 1
+
+SBMGeo = "SPHERE"
+
+
+################# LE #####################
+LEcaseType = "planestrain"
+planestrain = {
+  young = 1
+  poisson = 0.3
+}
+
+LEBCcaseType = "ZeroTraction"
+
+bodyforce_V = [0.0 , 0.0 , 0.0]
+
+radialbodyforce = {
+  BR_pow = 0.0
+  BR_v = 0.0
+}
+
+
+##########################
+elemOrder = 1
+channel_mesh = {
+  refine_lvl_base = 3
+  refine_lvl_channel_wall = 3
+  enable_subda = false
+  min = [0, 0, 0]
+  max = [2, 2, 2]
+  refine_walls = true
+}
+
+
+### Coe setup
+Cb_e = 400
+
+/// this is different from NSHT
+geometries_ibm = (
+  {
+    mesh_path = "./sphere.stl"
+    name = "sphere"
+    is_static = true
+    position = [1.0,1.0,1.0] # change pos
+    outer_boundary=true
+    type = "meshobject"
+    refine_lvl = 3 # on the boundary
+    bc_type_D = ["dirichlet", "dirichlet","dirichlet"] # X,Y
+    D_value = [0.0, 0.0,0.0]
+  }
+)
+
+region_refine = (
+)
+
+OutputStartTime = 1e8
+OutputInterval = 1
+CheckpointInterval = 10
+
+#################### solver setting ####################
+solver_options_le = {
+  ksp_max_it = 2000
+  ksp_type = "bcgs"
+  pc_type = "lu"
+  ksp_rtol = 1e-10
+  ksp_converged_reason = ""
+  ksp_monitor = ""
+}
+

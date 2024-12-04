@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="le-kt" targetName="docs" />
+      <config projectName="le-kt" targetName="talyfem" />
+      <config projectName="le-kt" targetName="tstBoundaryRefined" />
+      <config projectName="le-kt" targetName="tstProduceHangingSubda" />
+      <config projectName="le-kt" targetName="tstScatterMap" />
+      <config projectName="le-kt" targetName="tstMatvec" />
+      <config projectName="le-kt" targetName="talyfem-docs" />
+      <config projectName="le-kt" targetName="tstIntergridTransfer" />
+      <config projectName="le-kt" targetName="tstODA" />
+      <config projectName="le-kt" targetName="tstTreeVtu" />
+      <config projectName="le-kt" targetName="tstPoissonOperator" />
+      <config projectName="le-kt" targetName="tstConstruct" />
+      <config projectName="le-kt" targetName="tstRemesh" />
+      <config projectName="le-kt" targetName="tstSFCTreeLoop" />
+      <config projectName="le-kt" targetName="tstRefineSubda" />
+      <config projectName="le-kt" targetName="sda-geom" />
+      <config projectName="le-kt" targetName="tstIntergridSubda" />
+      <config projectName="le-kt" targetName="raytracer" />
+      <config projectName="le-kt" targetName="tle-kt" />
+      <config projectName="le-kt" targetName="tstRestriction" />
+      <config projectName="le-kt" targetName="tstBillionsOfElements" />
+      <config projectName="le-kt" targetName="tstMeshLoop" />
+      <config projectName="le-kt" targetName="matvecBench" />
+      <config projectName="le-kt" targetName="tstMatAssembly" />
+      <config projectName="le-kt" targetName="tstCheckpoint" />
+      <config projectName="le-kt" targetName="dendriteKT" />
+      <config projectName="le-kt" targetName="tstMovingBall" />
+      <config projectName="le-kt" targetName="tstTreeSort" />
+      <config projectName="le-kt" targetName="exPoissonGMG" />
+      <config projectName="le-kt" targetName="sle-kt" />
+      <config projectName="le-kt" targetName="tsortBench" />
+      <config projectName="le-kt" targetName="tstScatterUniq" />
+      <config projectName="le-kt" targetName="tstCreateRegularOctree" />
+      <config projectName="le-kt" targetName="tstLocGlobSz" />
+      <config projectName="le-kt" targetName="exPoissonEq" />
+      <config projectName="le-kt" targetName="tstFunction2Octree" />
+      <config projectName="le-kt" targetName="tstTreeConstruction" />
+      <config projectName="le-kt" targetName="tstTSearchCmpx" />
+      <config projectName="le-kt" targetName="tstTreeNodeOwner" />
+      <config projectName="le-kt" targetName="tstHCurveTable" />
+      <config projectName="le-kt" targetName="tstPartition" />
+      <config projectName="le-kt" targetName="dendroKT" />
+      <config projectName="le-kt" targetName="tstTreeBalancing" />
+      <config projectName="le-kt" targetName="tstHangingBoundary" />
+      <config projectName="le-kt" targetName="tstBoundaryIndices" />
+      <config projectName="le-kt" targetName="b64" />
+      <config projectName="le-kt" targetName="matvecBenchAdaptive" />
+      <config projectName="le-kt" targetName="tstGenerateGridHierarchy" />
+      <config projectName="le-kt" targetName="tstConsistentElements" />
+      <config projectName="le-kt" targetName="tstIncidentGhostPoints" />
+      <config projectName="le-kt" targetName="tstKeepSiblingLeafsTogether" />
+      <config projectName="le-kt" targetName="matvecBenchChannel" />
+      <config projectName="le-kt" targetName="tstCountCGNodes" />
+      <config projectName="le-kt" targetName="tstTable" />
+      <config projectName="le-kt" targetName="exHeatEq" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" GENERATION_OPTIONS="-DIBM=Yes -DENABLE_3D=Yes" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fb2cff18-1528-4efd-a61e-be30e24a0004" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/dendrite-kt/include/TalyMat.h" beforeDir="false" afterPath="$PROJECT_DIR$/dendrite-kt/include/TalyMat.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/SSLEEquation.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/SSLEEquation.h" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2024" />
+    <option name="minorVersion" value="1.4" />
+    <option name="productBranch" value="Classic" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2kL4ifKqnQkz4BVwspdRRZjpsPW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;gem__bc&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CMakeSettings&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="CMake Application.sle-kt">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Part from Mingchen" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$USER_HOME$/running/3D_LE/part" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="sle-kt" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="sle-kt">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="b64" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="b64" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dendriteKT" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="dendriteKT" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dendroKT" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="dendroKT" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="docs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="docs" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="exHeatEq" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="exHeatEq" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="exHeatEq">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="exPoissonEq" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="exPoissonEq" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="exPoissonEq">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="exPoissonGMG" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="exPoissonGMG" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="exPoissonGMG">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="matvecBench" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="matvecBench" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="matvecBench">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="matvecBenchAdaptive" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="matvecBenchAdaptive" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="matvecBenchAdaptive">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="matvecBenchChannel" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="matvecBenchChannel" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="matvecBenchChannel">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="raytracer" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="raytracer" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sda-geom" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="sda-geom" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="sda-geom">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sle-kt" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$PROJECT_DIR$/../../linearelasticitygem/run_cantilever_consistency_quadratic_bf" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="sle-kt" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="sle-kt">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="talyfem-docs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="talyfem-docs" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="talyfem" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="talyfem" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tsortBench" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tsortBench" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tsortBench">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstBillionsOfElements" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstBillionsOfElements" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstBillionsOfElements">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstBoundaryIndices" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstBoundaryIndices" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstBoundaryIndices">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstBoundaryRefined" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstBoundaryRefined" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstBoundaryRefined">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstCheckpoint" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstCheckpoint" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstCheckpoint">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstConsistentElements" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstConsistentElements" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstConsistentElements">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstConstruct" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstConstruct" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstConstruct">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstCountCGNodes" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstCountCGNodes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstCountCGNodes">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstCreateRegularOctree" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstCreateRegularOctree" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstCreateRegularOctree">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstFunction2Octree" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstFunction2Octree" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstFunction2Octree">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstGenerateGridHierarchy" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstGenerateGridHierarchy" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstGenerateGridHierarchy">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstHCurveTable" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstHCurveTable" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstHCurveTable">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstHangingBoundary" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstHangingBoundary" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstHangingBoundary">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstIncidentGhostPoints" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstIncidentGhostPoints" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstIncidentGhostPoints">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstIntergridSubda" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstIntergridSubda" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstIntergridSubda">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstIntergridTransfer" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstIntergridTransfer" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstIntergridTransfer">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstKeepSiblingLeafsTogether" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="sle-kt" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="sle-kt">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstLocGlobSz" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstLocGlobSz" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstLocGlobSz">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstMatAssembly" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstMatAssembly" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstMatAssembly">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstMatvec" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstMatvec" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstMatvec">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstMeshLoop" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstMeshLoop" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstMeshLoop">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstMovingBall" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstMovingBall" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstMovingBall">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstODA" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstODA" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstODA">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstPartition" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstPartition" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstPartition">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstPoissonOperator" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstPoissonOperator" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstPoissonOperator">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstProduceHangingSubda" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstProduceHangingSubda" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstProduceHangingSubda">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstRefineSubda" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstRefineSubda" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstRefineSubda">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstRemesh" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstRemesh" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstRemesh">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstRestriction" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstRestriction" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstRestriction">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstSFCTreeLoop" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstSFCTreeLoop" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstSFCTreeLoop">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstScatterMap" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstScatterMap" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstScatterMap">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstScatterUniq" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstScatterUniq" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstScatterUniq">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstTSearchCmpx" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstTSearchCmpx" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstTSearchCmpx">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstTable" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstTable" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstTable">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstTreeBalancing" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstTreeBalancing" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstTreeBalancing">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstTreeConstruction" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstTreeConstruction" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstTreeConstruction">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstTreeNodeOwner" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstTreeNodeOwner" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstTreeNodeOwner">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstTreeSort" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstTreeSort" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstTreeSort">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tstTreeVtu" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="le-kt" TARGET_NAME="tstTreeVtu" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="le-kt" RUN_TARGET_NAME="tstTreeVtu">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.dendriteKT" />
+      <item itemvalue="CMake Application.sda-geom" />
+      <item itemvalue="CMake Application.dendroKT" />
+      <item itemvalue="CMake Application.exHeatEq" />
+      <item itemvalue="CMake Application.exPoissonEq" />
+      <item itemvalue="CMake Application.exPoissonGMG" />
+      <item itemvalue="CMake Application.matvecBench" />
+      <item itemvalue="CMake Application.matvecBenchAdaptive" />
+      <item itemvalue="CMake Application.matvecBenchChannel" />
+      <item itemvalue="CMake Application.tsortBench" />
+      <item itemvalue="CMake Application.tstBillionsOfElements" />
+      <item itemvalue="CMake Application.tstBoundaryIndices" />
+      <item itemvalue="CMake Application.tstBoundaryRefined" />
+      <item itemvalue="CMake Application.tstCheckpoint" />
+      <item itemvalue="CMake Application.tstConsistentElements" />
+      <item itemvalue="CMake Application.tstConstruct" />
+      <item itemvalue="CMake Application.tstCountCGNodes" />
+      <item itemvalue="CMake Application.tstCreateRegularOctree" />
+      <item itemvalue="CMake Application.tstFunction2Octree" />
+      <item itemvalue="CMake Application.tstGenerateGridHierarchy" />
+      <item itemvalue="CMake Application.tstHangingBoundary" />
+      <item itemvalue="CMake Application.tstHCurveTable" />
+      <item itemvalue="CMake Application.tstIncidentGhostPoints" />
+      <item itemvalue="CMake Application.tstIntergridSubda" />
+      <item itemvalue="CMake Application.tstIntergridTransfer" />
+      <item itemvalue="CMake Application.tstKeepSiblingLeafsTogether" />
+      <item itemvalue="CMake Application.sle-kt" />
+      <item itemvalue="CMake Application.Part from Mingchen" />
+      <item itemvalue="CMake Application.tstLocGlobSz" />
+      <item itemvalue="CMake Application.tstMatAssembly" />
+      <item itemvalue="CMake Application.tstMatvec" />
+      <item itemvalue="CMake Application.tstMeshLoop" />
+      <item itemvalue="CMake Application.tstMovingBall" />
+      <item itemvalue="CMake Application.tstODA" />
+      <item itemvalue="CMake Application.tstPartition" />
+      <item itemvalue="CMake Application.tstPoissonOperator" />
+      <item itemvalue="CMake Application.tstProduceHangingSubda" />
+      <item itemvalue="CMake Application.tstRefineSubda" />
+      <item itemvalue="CMake Application.tstRemesh" />
+      <item itemvalue="CMake Application.tstRestriction" />
+      <item itemvalue="CMake Application.tstScatterMap" />
+      <item itemvalue="CMake Application.tstScatterUniq" />
+      <item itemvalue="CMake Application.tstSFCTreeLoop" />
+      <item itemvalue="CMake Application.tstTable" />
+      <item itemvalue="CMake Application.tstTreeBalancing" />
+      <item itemvalue="CMake Application.tstTreeConstruction" />
+      <item itemvalue="CMake Application.tstTreeNodeOwner" />
+      <item itemvalue="CMake Application.tstTreeSort" />
+      <item itemvalue="CMake Application.tstTreeVtu" />
+      <item itemvalue="CMake Application.tstTSearchCmpx" />
+      <item itemvalue="CMake Application.raytracer" />
+      <item itemvalue="CMake Application.docs" />
+      <item itemvalue="CMake Application.talyfem" />
+      <item itemvalue="CMake Application.talyfem-docs" />
+      <item itemvalue="CMake Application.b64" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fb2cff18-1528-4efd-a61e-be30e24a0004" name="Changes" comment="" />
+      <created>1723049652881</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1723049652881</updated>
+      <workItem from="1723049654713" duration="8000" />
+      <workItem from="1723049751414" duration="1856000" />
+      <workItem from="1723939142779" duration="17000" />
+      <workItem from="1723939170401" duration="125000" />
+      <workItem from="1723939333237" duration="130000" />
+      <workItem from="1723939502489" duration="12904000" />
+      <workItem from="1724000828825" duration="17458000" />
+      <workItem from="1724119692022" duration="5077000" />
+      <workItem from="1730829971681" duration="11012000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticEditVcpkgJson value="true" />
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticFoundErrors value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/include/SSLEEquation.h</url>
+          <line>288</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

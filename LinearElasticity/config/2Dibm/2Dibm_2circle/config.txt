@@ -1,0 +1,75 @@
+dt = 1
+totalT = 2
+
+################# LE #####################
+LEcaseType = "planestress"
+planestress = {
+  young=1
+  poisson=0
+}
+
+LEBCcaseType = "ZeroTraction"
+
+bodyforce_V = [0.0 , 0.0 , 0.0]
+
+radialbodyforce = {
+  BR_pow = -1
+  BR_v = 1.442695040888963
+}
+
+##########################
+elemOrder = 1
+channel_mesh = {
+  refine_lvl_base = 5
+  refine_lvl_channel_wall = 5
+  enable_subda = false
+  min = [0, 0, 0]
+  max = [2.5, 2.5, 2.5]
+  refine_walls = true
+}
+
+### Coe setup
+Cb_e = 200
+
+geometries_ibm = (
+ {
+    mesh_path = "./circle.msh"
+    name = "circle"
+    is_static = true
+    outer_boundary=true
+    position = [1.25, 1.25]
+    type = "meshobject_2d"
+    refine_lvl = 8
+    ######### LE #########
+    bc_type_D = ["dirichlet", "dirichlet"] # X,Y
+    D_value = [0.0, 0.0]
+  },
+    {
+    mesh_path = "./icircle.msh"
+    name = "innercircle"
+    is_static = true
+    position = [1.25, 1.25]
+    type = "meshobject_2d"
+    refine_lvl = 8
+    ######### LE #########
+    bc_type_D = ["w_radial", "w_radial"] # X,Y
+    D_value = [0.25, 0.25]
+  }
+)
+
+
+
+OutputStartTime = 1e8
+OutputInterval = 1
+CheckpointInterval = 10
+
+
+#################### solver setting ####################
+solver_options_le = {
+  ksp_max_it = 2000
+  ksp_type = "bcgs"
+  pc_type = "jacobi"
+  ksp_rtol = 1e-20
+  ksp_converged_reason = ""
+  ksp_monitor = ""
+}

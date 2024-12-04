@@ -1,0 +1,118 @@
+dt_V = [0.1]
+totalT_V = [0.5]
+
+################# LE #####################
+LEcaseType="lame"
+lame = {
+  lamda=1
+  mu=1
+}
+
+LEBCcaseType = "ZeroTraction"
+
+bodyforce_V = [0.0 , 0.0 , 0.0]
+
+radialbodyforce = {
+  BR_pow = 0
+  BR_v = 0
+}
+
+rho=1
+scaleFactor=0.25
+
+##########################
+elemOrder = 1
+channel_mesh = {
+  refine_lvl_base = 5
+  refine_lvl_channel_wall = 5
+  enable_subda = false
+  min = [0, 0, 0]
+  max = [2, 2, 2]
+  refine_walls = true
+}
+
+### Coe setup
+Cb_e = 2E7
+
+geometries_ibm = (
+ {
+    mesh_path = "./circle.msh"
+    name = "circle"
+    is_static = true
+    outer_boundary=true
+    position = [1, 1]
+    type = "meshobject_2d"
+    refine_lvl = 9
+    gp_level = 0
+    ######### LE #########
+    bc_type_D = ["t_radial", "t_radial"]
+    D_value = [-2, -2]
+  },
+    {
+    mesh_path = "./icircle.msh"
+    name = "innercircle"
+    is_static = true
+    position = [1, 1]
+    type = "meshobject_2d"
+    refine_lvl = 9
+    gp_level = 0
+    ######### LE #########
+    #bc_type_D = ["w_radial", "w_radial"] # X,Y
+    #D_value = [0.25, 0.25]
+    bc_type_D = ["t_radial", "t_radial"]
+    D_value = [-1,-1]
+  }
+)
+
+
+
+### BCs
+boundary = (
+  {
+    side = "x-"
+    disp_type = "neumann"
+    TX = 0
+    TY = 0
+    ifRefine = true
+  },
+  {
+    side = "x+"
+    disp_type = "neumann"
+    TX = 0
+    TY = 0
+    ifRefine = true
+  },
+  {
+    side = "y-"
+    disp_type = "neumann"
+    TX = 0
+    TY = 0
+    ifRefine = true
+  },
+  {
+    side = "y+"
+    disp_type = "neumann"
+    TX = 0
+    TY = 0
+    ifRefine = true
+  }
+)
+
+region_refine = (
+)
+
+OutputStartTime = 0
+OutputInterval = 1
+CheckpointInterval = 10
+SurfaceMonitor = [2]
+
+
+#################### solver setting ####################
+solver_options_le = {
+  ksp_max_it = 2000
+  ksp_type = "bcgs"
+  pc_type = "jacobi"
+  ksp_rtol = 1e-20
+  ksp_converged_reason = ""
+  ksp_monitor = ""
+}

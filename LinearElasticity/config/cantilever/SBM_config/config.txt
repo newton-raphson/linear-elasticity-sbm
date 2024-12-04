@@ -1,0 +1,114 @@
+dt = 1
+totalT = 1
+
+################# SBM #################
+RatioGPSBM = 1
+
+SBMGeo = "cantilever"
+
+################# LE #####################
+LEcaseType = "planestrain"
+planestrain = {
+  young = 7e10
+  poisson = 0.33
+}
+
+LEBCcaseType = "BOTTOM_FORCE"
+BOTTOM_FORCE ={
+traction = -1000
+NeumannFromSBM = true
+}
+
+bodyforce_V = [0.0 , 0.0 , 0.0]
+
+radialbodyforce = {
+  BR_pow = 0.0
+  BR_v = 0.0
+}
+
+
+############ geometry ########################
+
+geometries_ibm = (
+  {
+    mesh_path = "./part.stl"
+    name = "part"
+    is_static = true
+    position = [-0.1,-0.80005,-0.70005] # change pos
+    outer_boundary=true
+    type = "meshobject"
+    refine_lvl = 6 # on the boundary
+    bc_type_D = ["neumann", "neumann","neumann"] # X,Y
+    D_value = [0.0, 0.0,0.0] # this means that traction is zero at these places
+  }
+)
+
+
+##########################
+elemOrder = 1
+channel_mesh = {
+  refine_lvl_base = 6
+  refine_lvl_channel_wall = 5
+  enable_subda = false
+  min = [0, 0, 0]
+  max = [1.75, 2.0, 2.0]
+  refine_walls = true
+}
+
+
+### Coe setup (Penalty -> Monu can try this also)
+#Cb_e = 20
+Cb_e = 400
+
+
+region_refine = (
+)
+
+OutputStartTime = 1e8
+OutputInterval = 1
+CheckpointInterval = 10
+
+#################### solver setting ####################
+#solver_options_le = {
+#  ksp_max_it = 2000
+#  ksp_type = "bcgs"
+#  pc_type = "lu"
+#  #ksp_rtol = 1e-10
+#
+##  ksp_type = "fgmres"
+##  pc_type = "gamg"
+##  pc_gamg_asm_use_agg = True
+##  mg_levels_ksp_type = "gmres"
+##  #mg_levels_pc_type = "jacobi"
+##  mg_levels_pc_type = "sor"
+##  #mg_levels_sub_pc_type = "lu"
+##  mg_levels_ksp_max_it = 40
+##  ksp_rtol = 1e-8
+##
+#
+#  ksp_converged_reason = ""
+#  ksp_monitor = ""
+#}
+
+solver_options_le = {
+  ksp_max_it = 50000
+
+  ksp_type = "bcgs"
+  pc_type = "lu"
+
+#  ksp_type = "bcgs"
+#  pc_type = "jacobi"
+#  sub_pc_type = "lu"
+#
+#  ksp_type = "fgmres"
+#  pc_type = "gamg"
+#  pc_gamg_asm_use_agg = True
+#  mg_levels_ksp_type = "gmres"
+#  mg_levels_pc_type = "bjacobi"
+#  mg_levels_ksp_max_it = 10
+#
+  ksp_rtol = 1e-8
+
+  ksp_converged_reason = ""
+  ksp_monitor = ""
+}

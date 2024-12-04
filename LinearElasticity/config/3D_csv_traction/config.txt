@@ -1,0 +1,88 @@
+dt = 1
+totalT = 2
+
+################## SBM ###################
+
+################# SBM end ################
+
+
+################# LE #####################
+LEcaseType = "planestrain"
+planestrain = {
+  young = 1000
+  poisson = 0.3
+}
+
+LEBCcaseType = "CSV_FORCE"
+CSV_FORCE = {
+  FixSide = "y-"
+  filename = "traction_global.txt" 
+  shift_pos = [3.0, 3.0, 3.0] 
+}
+
+bodyforce_V = [0.0 , 0.0 , 0.0]
+
+radialbodyforce = {
+  BR_pow = 0.0
+  BR_v = 0.0
+}
+
+##########################
+elemOrder = 1
+channel_mesh = {
+  refine_lvl_base = 6
+  refine_lvl_channel_wall = 6
+  enable_subda = false
+  min = [-7.5, -7.5, -7.5]
+  max = [7.5, 7.5, 7.5]
+  #min = [-1.5,-1.5,-1.5]
+  #max = [0.9375, 0.9375, 0.0]
+  #max = [1.5, 1.5, 0.0]
+  refine_walls = true
+}
+
+### Coe setup => Cb_e is alpha in SBM
+Cb_e = 400
+Cb_le = 400
+
+geometries_ibm = (
+ {
+ mesh_path = "./landingGear.stl"
+ name = "square"
+ is_static = true
+ outer_boundary=true
+ position = [3.0, 3.0, 3.0]
+ type = "meshobject"
+ refine_lvl = 8
+# ######### LE #########
+ bc_type_D = ["neumann", "neumann", "neumann"] # X,Y
+ D_value = [0.0, 0.0, 0.0]
+}
+)
+
+
+
+
+OutputStartTime = 1e8
+OutputInterval = 1
+CheckpointInterval = 10
+
+
+#################### solver setting ####################
+solver_options_le = {
+  ksp_max_it = 5000
+  ksp_type = "bcgs"
+  pc_type = "jacobi"
+
+#  ksp_type = "fgmres"
+# pc_type = "gamg"
+# pc_gamg_asm_use_agg = True
+# mg_levels_ksp_type = "gmres"
+# mg_levels_pc_type = "sor"
+# mg_levels_ksp_max_it = 40
+
+  ksp_rtol = 1e-8
+  #ksp_rtol = 1e-12
+  ksp_converged_reason = ""
+  ksp_monitor = ""
+}

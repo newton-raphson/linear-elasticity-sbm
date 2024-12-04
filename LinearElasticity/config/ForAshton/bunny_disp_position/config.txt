@@ -1,0 +1,86 @@
+dt = 1
+totalT = 1
+
+################# SBM #################
+RatioGPSBM = 1
+
+SBMGeo = "ARBITRARY"
+
+
+################# LE #####################
+LEcaseType = "planestrain"
+planestrain = {
+  young = 1
+  poisson = 0.3
+}
+
+LEBCcaseType = "POSITION_DISPLACEMENT"
+
+bodyforce_V = [0.0 , 0.0 , 0.0]
+
+radialbodyforce = {
+  BR_pow = 0.0
+  BR_v = 0.0
+}
+
+
+##########################
+elemOrder = 1
+channel_mesh = {
+  refine_lvl_base = 4
+  refine_lvl_channel_wall = 3
+  enable_subda = false
+  min = [0, 0, 0]
+  max =[1,1,1]
+  ##max = [2, 2, 2] # Ashton should change this according to the complex shapes
+  refine_walls = true
+}
+
+
+### Coe setup
+Cb_e = 400
+
+/// this is different from NSHT
+geometries_ibm = (
+  {
+    mesh_path = "./bunny_OriSize_coarse.stl"
+    ##mesh_path = "./sphere.stl" # Ashton should change it
+    name = "sphere"
+    is_static = true
+    position = [0.0,0.0,0.0] # change pos
+    ##position = [1.0,1.0,1.0] # Ashton should change pos according to the complex shapes
+    outer_boundary=true
+    type = "meshobject"
+    refine_lvl = 3 # on the boundary
+    bc_type_D = ["dirichlet", "dirichlet","dirichlet"] # X,Y
+    D_value = [0.0, 0.0,0.0] # For Ashton: actually this does not matter
+  }
+)
+
+region_refine = (
+)
+
+OutputStartTime = 1e8
+OutputInterval = 1
+CheckpointInterval = 10
+
+#################### solver setting ####################
+solver_options_le = {
+  ksp_max_it = 2000
+ # ksp_type = "bcgs"
+ # pc_type = "lu"
+
+  ksp_type = "fgmres"
+  pc_type = "gamg"
+  pc_gamg_asm_use_agg = True
+  mg_levels_ksp_type = "gmres"
+  #mg_levels_pc_type = "jacobi"
+  mg_levels_pc_type = "sor"
+  #mg_levels_sub_pc_type = "lu"
+  mg_levels_ksp_max_it = 40
+  ksp_rtol = 1e-8
+
+#  ksp_rtol = 1e-10
+  ksp_converged_reason = ""
+  ksp_monitor = ""
+}
