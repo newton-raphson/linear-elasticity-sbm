@@ -43,12 +43,21 @@ enum CaseDir : DENDRITE_UINT
 struct TractionBC
 {
   double traction;
+  std::vector<double> traction_vec;
   CaseDir direction;
 
   void read_from_config(const libconfig::Setting &root)
   {
 //      at least let's be sure we are here
-    traction = root["traction"];
+    if (root.exists("traction"))
+    {
+      ReadVectorRoot(root, "traction", traction_vec);
+    }
+    else
+    {
+      PrintError("TractionBC: traction not found");
+    }
+//    read traction vector
     direction = read_dir_type(root["direction"]);
   }
 
@@ -393,10 +402,10 @@ public: // need to put the variable need to use in the other subroutine here!
       bool z_minus_wall = false;
       bool z_max_wall = false;
 
-      if (NormalTraction.direction == CaseDir::RIGHT)
-      {
-        x_max_wall = true;
+      if (NormalTraction.direction == CaseDir::RIGHT) {
+          x_max_wall = true;
       }
+
       if (NormalTraction.direction == CaseDir::TOP)
       {
         y_max_wall = true;

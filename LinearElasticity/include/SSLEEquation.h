@@ -276,20 +276,159 @@ public:
   ///// ==================== ibm end====================================
 #pragma mark Ae-be Surface Carved
     void Integrands4side_Ae(const TALYFEMLIB::FEMElm &fe, const DENDRITE_UINT side_idx, const DENDRITE_UINT id, TALYFEMLIB::ZeroMatrix<double> &Ae) {
-        return;
+
+
+
+        assert(method == IBM_METHOD::SBM);
+
+        double h = ElementSize(fe);
+        const int n_basis_functions = fe.nbf();
+
+
+        const double detSideJxW = fe.detJxW();
+
+        double eps = 1e-15;
+        bool x_minus_wall = fabs(fe.position().x() - idata_->mesh_def.physDomain.min[0]) < eps;
+        bool y_minus_wall = fabs(fe.position().y() - idata_->mesh_def.physDomain.min[1]) < eps;
+        bool x_plus_wall = fabs(fe.position().x() - idata_->mesh_def.physDomain.max[0]) < eps;
+        bool y_plus_wall = fabs(fe.position().y() - idata_->mesh_def.physDomain.max[1]) < eps;
+        if(x_minus_wall || y_minus_wall)
+        {
+//        this is the case where the left boundary is fixed
+            return;
+        }
+        double d[DIM];
+        if(x_plus_wall)
+        {
+            d[0] = -0.00390625;
+            d[1] = 0;
+        }
+        if(y_plus_wall)
+        {
+            d[0] = 0;
+            d[1] = -0.00390625;
+        }
+
+        //////////////////////////////////////weak//////////////////////////////////////////
+
+        double Cmatrix[3 * (DIM - 1)][3 * (DIM - 1)];
+        std::vector<std::vector<double>> Be(DIM * n_basis_functions);
+//  gradStrainDotDistanceMatrix
+        std::vector<std::vector<double>> gradStrainDotDistance(DIM * n_basis_functions);
+        /// for middle term => B_T*C_T
+        std::vector<std::vector<double>> BeCmatrix(DIM * n_basis_functions);
+        double SurrogateNormalMatrix[DIM][3 * (DIM - 1)];
+        /// for mid2 term => B_T*C_T*n
+        std::vector<std::vector<double>> StressDotSurrogateNormal(DIM * n_basis_functions);
+
+
+
+
+
+//          get the normaltraction
+
+            ZEROPTV traction = CalcNormalTraction(fe, d);
+//          if all the components of traction are zero then we return
+//          this is the top lid
+//          NO TRACTION WITH BOUNDARY FITTED SIDE
+
+            ZEROPTV true_position = fe.position() + ZEROPTV{d[0], d[1], d[2]};
+
+            if (std::sqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]) < eps) {
+                return;
+
+            }
+
+
+            CalcCmatrix(Cmatrix);
+//            Strain Dot Distance Matrix
+            CalcGradStrainDotDistance(fe, gradStrainDotDistance, d);
+
+//            multiply Cmatrix with gradStrainDotDistance
+            std::vector<std::vector<double>> CMatrixGradStrainDotDistance(DIM * n_basis_functions);
+
+//            just use THIS FUNCTION TO MULTIPLY THE TWO MAT IT'S ALREADY IMPLEMENTED
+            CalcBeCmatrix(fe, gradStrainDotDistance, Cmatrix, CMatrixGradStrainDotDistance);
+//            multiply CMatrixGradStrainDotDistance with normal
+            CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
+//            multiply CMatrixGradStrainDotDistance with normal
+            std::vector<std::vector<double>> Hessian_Dot_Normal(DIM * n_basis_functions);
+//            Hessian_Dot_Normal is DIM * (n_basis_functions*DIM)
+            CalcStressDotNormal(fe, CMatrixGradStrainDotDistance, SurrogateNormalMatrix, Hessian_Dot_Normal);
+
+
+//            get the basis matrix , we are just doing this to make our life easier
+            std::vector<std::vector<double>> basisMatrix(DIM * n_basis_functions);
+
+            CalcBasisMatrix(fe, basisMatrix);
+//            check if the basis matrix has value Nan
+            for (int i = 0; i < DIM * n_basis_functions; i++) {
+                for (int j = 0; j < DIM; j++) {
+                    if (std::isnan(basisMatrix[i][j])) {
+                        std::cout << "basisMatrix is nan\n";
+                    }
+                }
+            }
+//            check if any of the values in Hessian_Dot_Normal is nan
+
+/*
+            for (int i = 0; i < DIM * n_basis_functions; i++) {
+                for (int j = 0; j < DIM; j++) {
+                    if (std::isnan(Hessian_Dot_Normal[i][j])) {
+                        std::cout << "Hessian_Dot_Normal is nan\n";
+                    }
+                }
+            }
+            */
+
+            for (int a = 0; a < DIM * n_basis_functions; a++) {
+                for (int b = 0; b < DIM * n_basis_functions; b++) {
+                    double N = 0;
+                    for (int k = 0; k < DIM; k++) {
+                        N += Hessian_Dot_Normal[a][k] * basisMatrix[b][k] * detSideJxW;
+
+
+                    }
+                    Ae(a, b) += N;
+                }
+            }
+//            std::cout << "Ae\n";
+
+            return;
+
     }
   void Integrands4side_be(const TALYFEMLIB::FEMElm &fe, const DENDRITE_UINT side_idx, const DENDRITE_UINT id, TALYFEMLIB::ZEROARRAY<double> &be)
   {
-      double eps = 1e-8;
+      double eps = 1e-10;
       bool x_minus_wall = fabs(fe.position().x() - idata_->mesh_def.physDomain.min[0]) < eps;
       bool y_minus_wall = fabs(fe.position().y() - idata_->mesh_def.physDomain.min[1]) < eps;
+      bool x_plus_wall = fabs(fe.position().x() - idata_->mesh_def.physDomain.max[0]) < eps;
+      bool y_plus_wall = fabs(fe.position().y() - idata_->mesh_def.physDomain.max[1]) < eps;
     if(x_minus_wall || y_minus_wall)
     {
 //        this is the case where the left boundary is fixed
         return;
     }
-    double d[DIM]={0};
-    ZEROPTV traction = CalcNormalTraction(fe, d);
+    double d[DIM];
+    if(x_plus_wall)
+    {
+        d[0] = -0.00390625;
+        d[1] = 0;
+    }
+    if(y_plus_wall)
+    {
+        d[0] = 0;
+        d[1] = -0.00390625;
+    }
+
+  ZEROPTV traction = CalcNormalTraction(fe, d);
+    if (traction.x() == 0 && traction.y() == 0 && traction.z() == 0) {
+        return;
+    }
+
+
+
+
 
     for (int a = 0; a < fe.nbf(); a++)
     {
@@ -914,11 +1053,12 @@ private:
   ZEROPTV CalcNormalTraction(const TALYFEMLIB::FEMElm &fe, const double d[DIM])
   {
 //    COMPUTE THE TRUE POSITION
-
+    double eps = 1e-10;
     ZEROPTV traction = ZEROPTV{0, 0, 0};
+    idata_->traction_vector_;
 
 
-    if (fabs(fe.position().x()-idata_->mesh_def.physDomain.max[0]) < 1e-6)
+    if (fabs(fe.position().x()-idata_->mesh_def.physDomain.max[0]) < eps)
     {
 
 #ifndef NDEBUG
@@ -936,10 +1076,11 @@ private:
         file.close();
 
 #endif
-      traction = ZEROPTV{1, 0, 0};
+//print the traction
+      traction = ZEROPTV{idata_->NormalTraction.traction_vec[0],idata_->NormalTraction.traction_vec[1], idata_->NormalTraction.traction_vec[2]};
       return traction;
     }
-    if(fabs(fe.position().y()-idata_->mesh_def.physDomain.max[1]) < 1e-6)
+    if(fabs(fe.position().y()-idata_->mesh_def.physDomain.max[1]) < eps)
     {
       traction = ZEROPTV{0, 0, 0};
       return traction;

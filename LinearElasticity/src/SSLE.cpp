@@ -525,29 +525,29 @@ int main(int argc, char *argv[])
   /// Domain error
 #pragma mark OptSug
 
-#if (DIM ==2)
-    double DomainError[2];
-    Marker *elementMarkerBaseOnNode = new Marker(octDA, dTree.getTreePartFiltered(), domainExtents, imga, MarkerType::ELEMENT_NODES);
-    inputData.CalcUxError = true;
-    CalcError calcErrorx(octDA, dTree.getTreePartFiltered(), vx, domainExtents, &subDomain, &inputData,elementMarkerBaseOnNode->getMarkers());
-    calcErrorx.getL2error(DomainError);
-    TALYFEMLIB::PrintStatus("[Domain Error] L2, Lf (x-dir) = ", DomainError[0], " ", DomainError[1]);
-    const auto &elemErrorX = calcErrorx.getElementalError();
-    static const char *varnameErrorX[]{"ErrorX"};
-    IO::writeVecTopVtu(octDA, dTree.getTreePartFiltered(), elemErrorX.data(), "Error", "ElemErrorX", varnameErrorX,
-                       domainExtents, true);
-
-
-    inputData.CalcUxError = false;
-    CalcError calcErrory(octDA, dTree.getTreePartFiltered(), vy, domainExtents, &subDomain, &inputData,elementMarkerBaseOnNode->getMarkers());
-    calcErrory.getL2error(DomainError);
-    TALYFEMLIB::PrintStatus("[Domain Error] L2, Lf (y-dir) = ", DomainError[0], " ", DomainError[1]);
-    const auto &elemErrorY = calcErrory.getElementalError();
-    static const char *varnameErrorY[]{"ErrorY"};
-    IO::writeVecTopVtu(octDA, dTree.getTreePartFiltered(), elemErrorY.data(), "Error", "ElemErrorY", varnameErrorY,
-                       domainExtents, true);
-
-#endif
+//#if (DIM ==2)
+//    double DomainError[2];
+//    Marker *elementMarkerBaseOnNode = new Marker(octDA, dTree.getTreePartFiltered(), domainExtents, imga, MarkerType::ELEMENT_NODES);
+//    inputData.CalcUxError = true;
+//    CalcError calcErrorx(octDA, dTree.getTreePartFiltered(), vx, domainExtents, &subDomain, &inputData,elementMarkerBaseOnNode->getMarkers());
+//    calcErrorx.getL2error(DomainError);
+//    TALYFEMLIB::PrintStatus("[Domain Error] L2, Lf (x-dir) = ", DomainError[0], " ", DomainError[1]);
+//    const auto &elemErrorX = calcErrorx.getElementalError();
+//    static const char *varnameErrorX[]{"ErrorX"};
+//    IO::writeVecTopVtu(octDA, dTree.getTreePartFiltered(), elemErrorX.data(), "Error", "ElemErrorX", varnameErrorX,
+//                       domainExtents, true);
+//
+//
+//    inputData.CalcUxError = false;
+//    CalcError calcErrory(octDA, dTree.getTreePartFiltered(), vy, domainExtents, &subDomain, &inputData,elementMarkerBaseOnNode->getMarkers());
+//    calcErrory.getL2error(DomainError);
+//    TALYFEMLIB::PrintStatus("[Domain Error] L2, Lf (y-dir) = ", DomainError[0], " ", DomainError[1]);
+//    const auto &elemErrorY = calcErrory.getElementalError();
+//    static const char *varnameErrorY[]{"ErrorY"};
+//    IO::writeVecTopVtu(octDA, dTree.getTreePartFiltered(), elemErrorY.data(), "Error", "ElemErrorY", varnameErrorY,
+//                       domainExtents, true);
+//
+//#endif
 
   delete leEq;
   delete leSolver;
