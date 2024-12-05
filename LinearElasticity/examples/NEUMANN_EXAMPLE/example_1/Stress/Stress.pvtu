@@ -1,0 +1,19 @@
+<?xml version="1.0"?> 
+<VTKFile type="PUnstructuredGrid" version="0.1" >
+<PUnstructuredGrid GhostLevel="0">
+<PPoints>
+<PDataArray type="Float32" NumberOfComponents="3"/>
+</PPoints>
+<PCellData>
+<PDataArray type="Float64" Name="strain_xx" format="binary"/>
+<PDataArray type="Float64" Name="strain_yy" format="binary"/>
+<PDataArray type="Float64" Name="strain_xy" format="binary"/>
+<PDataArray type="Float64" Name="stress_xx" format="binary"/>
+<PDataArray type="Float64" Name="stress_yy" format="binary"/>
+<PDataArray type="Float64" Name="stress_xy" format="binary"/>
+<PDataArray type="Float64" Name="vonMises" format="binary"/>
+<PDataArray type="UInt32" Name="rank" format="binary"/>
+</PCellData>
+<Piece Source="Stress_0_1.vtu" />
+</PUnstructuredGrid>
+</VTKFile>

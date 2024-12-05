@@ -1,0 +1,51 @@
+##############################
+Wed Dec  4 22:24:32 2024
+Total number of processor = 1
+size of DendroInt 8
+size of PetscInt 4
+Dimension: 2
+basisFunctionOrder: 1
+mfree: 0
+====== mesh_def ======
+channel_max: [1, 1, ]
+fullDADomain-min: [0, 0, ]
+fullDADomain-max: [1, 1, ]
+physDomain-min: [0, 0, ]
+physDomain-max: [1, 1, ]
+refine_lvl_base: 8
+refine_lvl_channel_wall: 6
+refine_walls: 1
+=====================
+
+====== timestepper ======
+dt: [1, ]
+totalT: [1, ]
+=====================
+
+===== parameters =======
+Cb_e: {
+value: [400, ]
+ramping_vec: [0, ]
+ramping_method: CONSTANT
+}
+
+TauN: {
+value: [0, ]
+ramping_vec: [0, ]
+ramping_method: CONSTANT
+}
+=====================
+
+
+region_refine: {
+========== solver settings ===========
+]
+solverOptionsLE: [
+ksp_converged_reason --> 
+ksp_max_it --> 1000
+ksp_monitor --> 
+ksp_monitor_singular_value --> 
+ksp_rtol --> 1e-12
+ksp_type --> richardson
+pc_type --> lu
+]

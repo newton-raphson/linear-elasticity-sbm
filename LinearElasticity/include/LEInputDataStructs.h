@@ -189,6 +189,7 @@ struct MeshDef {
   DomainInfo physDomain;   /// The actual SubDAdomain
 
   std::array<DENDRITE_REAL, DIM> channel_max; ///< end of domain
+  std::array<DENDRITE_REAL,DIM> phy_channel;
 
   ///< Dendro options
   DENDRITE_UINT refine_lvl_base;
@@ -203,8 +204,12 @@ struct MeshDef {
 
     channel_max[0] = (DENDRITE_REAL) root["max"][0];
     channel_max[1] = (DENDRITE_REAL) root["max"][1];
+//    physical channnel max
+    phy_channel[0] = (DENDRITE_REAL) root["phy_max"][0];
+    phy_channel[1] = (DENDRITE_REAL) root["phy_max"][1];
 #if (DIM == 3)
     channel_max[2] = (DENDRITE_REAL) root["max"][2];
+    phy_channel[2] = (DENDRITE_REAL) root["phy_max"][2];
 #endif
 
     if (!root.lookupValue("refine_walls", refine_walls)) {
@@ -240,12 +245,12 @@ struct MeshDef {
     /// Domain is [0,0.5] X [0,1]
     /// For now carve only in the +X direction
     physDomain.min.fill(0.0);
-    physDomain.max[0] = channel_max[0];
-    physDomain.max[1] = channel_max[1];
+    physDomain.max[0] = phy_channel[0];
+    physDomain.max[1] = phy_channel[1];
 #if (DIM == 3)
-    physDomain.max[2] = channel_max[2];
+    physDomain.max[2] = phy_channel[2];
 #endif
-
+    PrintWarning("The CODE IS BADLY WRITTEN WITH MINIMUM ALWATS AT 0.0");
     PrintStatus("fullDADomain: ", fullDADomain.max[0], ", ", fullDADomain.max[1], ", ",
                 fullDADomain.max[2]);
     PrintStatus("physicalDomain: ", physDomain.max[0], ", ", physDomain.max[1], ", ",

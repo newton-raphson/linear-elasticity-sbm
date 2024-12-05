@@ -1,0 +1,13 @@
+<?xml version="1.0"?> 
+<VTKFile type="PUnstructuredGrid" version="0.1" >
+<PUnstructuredGrid GhostLevel="0">
+<PPoints>
+<PDataArray type="Float32" NumberOfComponents="3"/>
+</PPoints>
+<PCellData>
+<PDataArray type="Float64" Name="bElement" format="binary"/>
+<PDataArray type="UInt32" Name="rank" format="binary"/>
+</PCellData>
+<Piece Source="subDA_0_1.vtu" />
+</PUnstructuredGrid>
+</VTKFile>

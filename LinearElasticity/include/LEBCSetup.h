@@ -23,6 +23,7 @@ private:
   void returnHalfBeamBoundary(PETSc::Boundary &b, const TALYFEMLIB::ZEROPTV &pos);
   void returnCsvTractionBoundary(PETSc::Boundary &b, const TALYFEMLIB::ZEROPTV &pos);
   void returnCarvedOutBoundary(PETSc::Boundary &b, const ZEROPTV &pos);
+  void returnleftShearTestBoundary(PETSc::Boundary &b, const TALYFEMLIB::ZEROPTV &pos);
 
 public:
   LEBCSetup(SubDomainBoundary *boundary, LEInputData *inputData)
@@ -42,7 +43,8 @@ public:
 
     if (input_data_->bccaseType == BCCaseType::NORMAL_TRACTION)
     {
-      returnNormalTractionBoundary(b, position);
+//      returnNormalTractionBoundary(b, position);
+return returnleftShearTestBoundary(b, position);
     }
 
     else if (input_data_->bccaseType == BCCaseType::DISPLACEMENT_BOTH_SIDE)
@@ -117,7 +119,18 @@ void LEBCSetup::returnNormalTractionBoundary(PETSc::Boundary &b, const TALYFEMLI
   if (x_minus_wall)
   {
 #ifndef NDEBUG
-//    std::cout << "setting Dirichlet BC\n";
+//        CREATE A FILE TO WRITE THE TRACTION
+      std::ofstream file;
+      file.open("dirichlet.csv", std::ios::app);
+//        IF THE FILE IS EMPTY THEN WRITE THE HEADER
+      if (file.tellp() == 0)
+      {
+          file << "X,Y,Z" << std::endl;
+      }
+
+//        this is appending right ???
+      file << pos.x() << "," << pos.y() << "," << pos.z() << ",\n"<< std::endl;
+      file.close();
 #endif
     b.addDirichlet(0, 0.0); // x-dir displacement
     b.addDirichlet(1, 0.0); // y-dir displacement
@@ -181,7 +194,23 @@ void LEBCSetup::returnFixedWallBottomForceBoundary(PETSc::Boundary &b, const ZER
 #endif
     }
 }
+void LEBCSetup::returnleftShearTestBoundary(PETSc::Boundary &b, const TALYFEMLIB::ZEROPTV &pos)
+{
+    static const double eps = 1e-15;
 
+    bool x_minus_wall = fabs(pos.x() - input_data_->mesh_def.physDomain.min[0]) < eps;
+    bool x_max_wall = fabs(pos.x() - input_data_->mesh_def.physDomain.max[0]) < eps;
+    bool y_minus_wall = fabs(pos.y() - input_data_->mesh_def.physDomain.min[1]) < eps;
+
+    if (x_minus_wall)
+    {
+        b.addDirichlet(0, 0); // x-dir displacemen
+    }
+    if(y_minus_wall)
+    {
+        b.addDirichlet(1, 0); // y-dir displacement
+    }
+}
 
 void LEBCSetup::returnCsvTractionBoundary(PETSc::Boundary &b, const ZEROPTV &pos) {
 

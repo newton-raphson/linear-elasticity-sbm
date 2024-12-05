@@ -36,7 +36,11 @@ int main(int argc, char *argv[])
     }
     MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
   }
-  inputData.PrintInputData();
+  if(rank == 0)
+  {
+      inputData.PrintInputData();
+  }
+
   ///------------------------------ Command line option to restart from a checkpoint -------------------------------////
   bool resume_from_checkpoint = false;
   {
@@ -189,7 +193,6 @@ int main(int argc, char *argv[])
       subDomain.addObject(c);
     }
   }
-
   /// carving subda
   std::function<ibm::Partition(const double *, double)> functionToRetain = [&](const double *physCoords, double physSize)
   {
@@ -239,10 +242,10 @@ int main(int argc, char *argv[])
 #endif
 
 
+
     my_kd_tree_t kd_tree(3 /*dim*/, CenterPts, {10 /* max leaf */});
 
-
-    octDA = createSubDA(dTree, functionToRetain, levelBase, eleOrder);
+  octDA = createSubDA(dTree, functionToRetain, levelBase, eleOrder);
   subDomain.finalize(octDA, dTree.getTreePartFiltered(), domainExtents);
   int no_refine = util_funcs::performRefinementSubDA(octDA, domainExtents, dTree, inputData, &subDomain);
 
