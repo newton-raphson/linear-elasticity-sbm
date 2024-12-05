@@ -289,7 +289,7 @@ public:
         return;
     }
     double d[DIM]={0};
-    ZEROPTV traction = CalcNormalTraction(fe, d);
+    ZEROPTV traction = CalcNormalTractionUVL(fe, d);
 
     for (int a = 0; a < fe.nbf(); a++)
     {
@@ -946,6 +946,35 @@ private:
     }
     return traction;
 
+  }
+  ZEROPTV CalcNormalTractionUVL(const TALYFEMLIB::FEMElm &fe, const double d[DIM])
+  {
+    ZEROPTV traction = ZEROPTV{0, 0, 0};
+    if (fabs(fe.position().x() - idata_->mesh_def.physDomain.max[0]) < 1e-6)
+    {
+        double y = fe.position().y();
+        double max_y = idata_->mesh_def.physDomain.max[1];
+        double min_y = idata_->mesh_def.physDomain.min[1];
+
+// Compute the mid-point of the domain along the y-axis
+        double mid_y = (max_y + min_y) / 2.0;
+
+// Compute the parabolic profile based on the y-position
+        double parabolic_profile = 1.0 - pow((y - mid_y) / (max_y - mid_y), 2);
+
+// Apply the traction with a parabolic distribution
+        traction = ZEROPTV{parabolic_profile, 0, 0};
+
+        std::cout << "Traction for Query Point:" << std::endl;
+        std::cout << traction << std::endl;
+      return traction;
+    }
+    if (fabs(fe.position().y() - idata_->mesh_def.physDomain.max[1]) < 1e-6)
+    {
+      traction = ZEROPTV{0, 0, 0};
+      return traction;
+    }
+    return traction;
   }
   ZEROPTV computeTraction(const TALYFEMLIB::FEMElm& fe, const LEInputData* idata_) {
 
