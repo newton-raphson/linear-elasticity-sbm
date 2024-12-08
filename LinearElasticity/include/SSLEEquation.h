@@ -275,11 +275,10 @@ public:
   }
   ///// ==================== ibm end====================================
 #pragma mark Ae-be Surface Carved
-    void Integrands4side_Ae(const TALYFEMLIB::FEMElm &fe, const DENDRITE_UINT side_idx, const DENDRITE_UINT id, TALYFEMLIB::ZeroMatrix<double> &Ae) {
-
-
+  void Integrands4side_Ae(const TALYFEMLIB::FEMElm &fe, const DENDRITE_UINT side_idx, const DENDRITE_UINT id, TALYFEMLIB::ZeroMatrix<double> &Ae) {
 
         assert(method == IBM_METHOD::SBM);
+
 
         double h = ElementSize(fe);
         const int n_basis_functions = fe.nbf();
@@ -292,7 +291,15 @@ public:
         bool y_minus_wall = fabs(fe.position().y() - idata_->mesh_def.physDomain.min[1]) < eps;
         bool x_plus_wall = fabs(fe.position().x() - idata_->mesh_def.physDomain.max[0]) < eps;
         bool y_plus_wall = fabs(fe.position().y() - idata_->mesh_def.physDomain.max[1]) < eps;
-        if(x_minus_wall || y_minus_wall)
+
+        if(idata_->NormalTraction.boundary_fitted)
+        {
+//            we apply nothing to the boundary fitted side in Ae matrix
+//            we just return saying TSM
+            return;
+        }
+
+        if(x_minus_wall || y_minus_wall || y_plus_wall)
         {
 //        this is the case where the left boundary is fixed
             return;
@@ -300,14 +307,22 @@ public:
         double d[DIM];
         if(x_plus_wall)
         {
-            d[0] = -0.00390625;
+            d[0] = -h/idata_->elemOrder;
+
             d[1] = 0;
+
+// THIS IS A SPECIAL CASE WHERE WE ARE APPLYING TRACTION TO THE TOP WALL
+// if WE APPLY BC THROUGH RIGHT WALL WE
+// WILL GET COMPETITION BETWEEN THE TWO BC
         }
+
         if(y_plus_wall)
         {
             d[0] = 0;
-            d[1] = -0.00390625;
+            d[1] = -h/idata_->elemOrder;
         }
+
+
 
         //////////////////////////////////////weak//////////////////////////////////////////
 
@@ -321,113 +336,95 @@ public:
         /// for mid2 term => B_T*C_T*n
         std::vector<std::vector<double>> StressDotSurrogateNormal(DIM * n_basis_functions);
 
-
-
-
-
-//          get the normaltraction
-
-            ZEROPTV traction = CalcNormalTraction(fe, d);
-//          if all the components of traction are zero then we return
-//          this is the top lid
-//          NO TRACTION WITH BOUNDARY FITTED SIDE
-
-            ZEROPTV true_position = fe.position() + ZEROPTV{d[0], d[1], d[2]};
-
-            if (std::sqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]) < eps) {
-                return;
-
-            }
-
-
-            CalcCmatrix(Cmatrix);
+        CalcCmatrix(Cmatrix);
 //            Strain Dot Distance Matrix
-            CalcGradStrainDotDistance(fe, gradStrainDotDistance, d);
+        CalcGradStrainDotDistance(fe, gradStrainDotDistance, d);
 
 //            multiply Cmatrix with gradStrainDotDistance
-            std::vector<std::vector<double>> CMatrixGradStrainDotDistance(DIM * n_basis_functions);
+        std::vector<std::vector<double>> CMatrixGradStrainDotDistance(DIM * n_basis_functions);
 
 //            just use THIS FUNCTION TO MULTIPLY THE TWO MAT IT'S ALREADY IMPLEMENTED
-            CalcBeCmatrix(fe, gradStrainDotDistance, Cmatrix, CMatrixGradStrainDotDistance);
+        CalcBeCmatrix(fe, gradStrainDotDistance, Cmatrix, CMatrixGradStrainDotDistance);
 //            multiply CMatrixGradStrainDotDistance with normal
-            CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
+        CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
 //            multiply CMatrixGradStrainDotDistance with normal
-            std::vector<std::vector<double>> Hessian_Dot_Normal(DIM * n_basis_functions);
+        std::vector<std::vector<double>> Hessian_Dot_Normal(DIM * n_basis_functions);
 //            Hessian_Dot_Normal is DIM * (n_basis_functions*DIM)
-            CalcStressDotNormal(fe, CMatrixGradStrainDotDistance, SurrogateNormalMatrix, Hessian_Dot_Normal);
+        CalcStressDotNormal(fe, CMatrixGradStrainDotDistance, SurrogateNormalMatrix, Hessian_Dot_Normal);
 
 
 //            get the basis matrix , we are just doing this to make our life easier
-            std::vector<std::vector<double>> basisMatrix(DIM * n_basis_functions);
+        std::vector<std::vector<double>> basisMatrix(DIM * n_basis_functions);
 
-            CalcBasisMatrix(fe, basisMatrix);
-//            check if the basis matrix has value Nan
-            for (int i = 0; i < DIM * n_basis_functions; i++) {
-                for (int j = 0; j < DIM; j++) {
-                    if (std::isnan(basisMatrix[i][j])) {
-                        std::cout << "basisMatrix is nan\n";
-                    }
+        CalcBasisMatrix(fe, basisMatrix);
+#ifndef NDEBUG
+        for (int i = 0; i < DIM * n_basis_functions; i++) {
+            for (int j = 0; j < DIM; j++) {
+                if (std::isnan(basisMatrix[i][j])) {
+                    std::cout << "basisMatrix is nan\n";
                 }
             }
-//            check if any of the values in Hessian_Dot_Normal is nan
+        }
+        for (int i = 0; i < DIM * n_basis_functions; i++) {
+          for (int j = 0; j < DIM; j++) {
+              if (std::isnan(Hessian_Dot_Normal[i][j])) {
+                  std::cout << "Hessian_Dot_Normal is nan\n";
+              }
+          }
+      }
+#endif
 
-/*
-            for (int i = 0; i < DIM * n_basis_functions; i++) {
-                for (int j = 0; j < DIM; j++) {
-                    if (std::isnan(Hessian_Dot_Normal[i][j])) {
-                        std::cout << "Hessian_Dot_Normal is nan\n";
-                    }
+/// THIS IS THE MAIN INTEGRAL WE ARE LOOKING FOR
+
+
+        for (int a = 0; a < DIM * n_basis_functions; a++) {
+            for (int b = 0; b < DIM * n_basis_functions; b++) {
+                double N = 0;
+                for (int k = 0; k < DIM; k++) {
+                    N += Hessian_Dot_Normal[a][k] * basisMatrix[b][k] * detSideJxW;
+
+
                 }
+                Ae(a, b) += N;
             }
-            */
+        }
 
-            for (int a = 0; a < DIM * n_basis_functions; a++) {
-                for (int b = 0; b < DIM * n_basis_functions; b++) {
-                    double N = 0;
-                    for (int k = 0; k < DIM; k++) {
-                        N += Hessian_Dot_Normal[a][k] * basisMatrix[b][k] * detSideJxW;
+        return;
 
 
-                    }
-                    Ae(a, b) += N;
-                }
-            }
-//            std::cout << "Ae\n";
-
-            return;
 
     }
   void Integrands4side_be(const TALYFEMLIB::FEMElm &fe, const DENDRITE_UINT side_idx, const DENDRITE_UINT id, TALYFEMLIB::ZEROARRAY<double> &be)
   {
       double eps = 1e-10;
+      double h = ElementSize(fe);
       bool x_minus_wall = fabs(fe.position().x() - idata_->mesh_def.physDomain.min[0]) < eps;
       bool y_minus_wall = fabs(fe.position().y() - idata_->mesh_def.physDomain.min[1]) < eps;
       bool x_plus_wall = fabs(fe.position().x() - idata_->mesh_def.physDomain.max[0]) < eps;
       bool y_plus_wall = fabs(fe.position().y() - idata_->mesh_def.physDomain.max[1]) < eps;
-    if(x_minus_wall || y_minus_wall)
+    if(x_minus_wall || y_minus_wall || y_plus_wall)
     {
 //        this is the case where the left boundary is fixed
         return;
     }
     double d[DIM];
+
     if(x_plus_wall)
     {
-        d[0] = -0.00390625;
+        d[0] = -h;
         d[1] = 0;
+//        THIS IS A SPECIAL CASE WHERE WE ARE APPLYING TRACTION TO THE TOP WALL
+//        if WE APPLY BC THROUGH RIGHT WALL WE
+//        WILL GET COMPETITION BETWEEN THE TWO BC
     }
     if(y_plus_wall)
     {
         d[0] = 0;
-        d[1] = -0.00390625;
+        d[1] = -h;
     }
+
 
   ZEROPTV traction = CalcNormalTraction(fe, d);
-    if (traction.x() == 0 && traction.y() == 0 && traction.z() == 0) {
-        return;
-    }
-
-
-
 
 
     for (int a = 0; a < fe.nbf(); a++)
@@ -455,6 +452,7 @@ public:
   void Integrands4side_Ae(const TALYFEMLIB::FEMElm &fe, int side_idx, int id, TALYFEMLIB::ZeroMatrix<double> &Ae,
                           const double *h)
   {
+
     Integrands4side_Ae(fe, side_idx, id, Ae);
   }
 
@@ -1088,6 +1086,50 @@ private:
     return traction;
 
   }
+  ZEROPTV CalcNormalTractionUVL(const TALYFEMLIB::FEMElm &fe, const double h)
+    {
+        double eps = 1e-10;
+        ZEROPTV traction = ZEROPTV{0, 0, 0};
+        if (fabs(fe.position().x() - idata_->mesh_def.physDomain.max[0]) < eps)
+        {
+            double y = fe.position().y();
+            double max_y = idata_->mesh_def.physDomain.max[1];
+            double min_y = idata_->mesh_def.physDomain.min[1];
+
+//            at this point applying the traction shifts the BC to the left
+//            this is not the part of the domain and doesn't require additional traction
+            if(y >= 1.0)
+            {
+                return traction;
+            }
+
+            traction = ZEROPTV{1, 0, 0};
+            return traction;
+
+//            double y = fe.position().y();
+//            double max_y = idata_->mesh_def.physDomain.max[1];
+//            double min_y = idata_->mesh_def.physDomain.min[1];
+//
+//// Compute the mid-point of the domain along the y-axis
+//            double mid_y = (max_y + min_y) / 2.0;
+//
+//// Compute the parabolic profile based on the y-position
+//            double parabolic_profile = 1.0 - pow((y - mid_y) / (max_y - mid_y), 2);
+//
+//// Apply the traction with a parabolic distribution
+//            traction = ZEROPTV{parabolic_profile, 0, 0};
+//
+//            std::cout << "Traction for Query Point:" << std::endl;
+//            std::cout << traction << std::endl;
+//            return traction;
+        }
+        if (fabs(fe.position().y() - idata_->mesh_def.physDomain.max[1]) < eps)
+        {
+            traction = ZEROPTV{0, 0, 0};
+            return traction;
+        }
+        return traction;
+    }
   ZEROPTV computeTraction(const TALYFEMLIB::FEMElm& fe, const LEInputData* idata_) {
 
 //    cantilever beam normal force:
@@ -1180,6 +1222,22 @@ private:
 #endif
 
         return x_minus_wall || y_minus_wall || x_max_wall || y_max_wall || z_minus_wall || z_max_wall;
+    }
+
+    void saveCoordinatesToFile(const TALYFEMLIB::FEMElm &fe, const string &filename) {
+        // Open the file in append mode
+        std::ofstream file(filename, std::ios::app);
+
+        // Check if the file is open
+        if (file.is_open()) {
+            // Write the coordinates to the file
+            file << fe.position().x() << ", " << fe.position().y() << ", " << fe.position().z() << "\n";
+
+            // Close the file
+            file.close();
+        } else {
+            std::cerr << "Unable to open file for writing\n";
+        }
     }
 
 };

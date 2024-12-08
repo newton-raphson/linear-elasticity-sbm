@@ -106,13 +106,14 @@ int main(int argc, char *argv[])
     }
 
   ///------------------------------------------Creation/loading of mesh----------------------------------------------///
+
   DomainExtents domainExtents(inputData.mesh_def.fullDADomain, inputData.mesh_def.physDomain);
   DA *octDA = nullptr;
   DistTREE dTree;
   SubDomain subDomain(domainExtents, resume_from_checkpoint);
 
   std::vector<GEOMETRY::STL *> stls; // 3D
-  std::vector<GEOMETRY::MSH *> mshs; // 2D
+  std::vector<GEOMETRY::MSH *> mshs; // 2D`
 
   /// IBM setup
   const IBM_METHOD ibmMethod = IBM_METHOD::SBM; // very important to set here!!!!!!!!!! -> inside TalyVec and TalyMat, it will go through different btw NITSCHE and SBM

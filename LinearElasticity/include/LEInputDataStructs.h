@@ -247,6 +247,7 @@ struct MeshDef {
     physDomain.min.fill(0.0);
     physDomain.max[0] = phy_channel[0];
     physDomain.max[1] = phy_channel[1];
+
 #if (DIM == 3)
     physDomain.max[2] = phy_channel[2];
 #endif

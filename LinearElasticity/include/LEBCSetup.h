@@ -25,6 +25,8 @@ private:
   void returnCarvedOutBoundary(PETSc::Boundary &b, const ZEROPTV &pos);
   void returnleftShearTestBoundary(PETSc::Boundary &b, const TALYFEMLIB::ZEROPTV &pos);
 
+  void returnDirichletBoundary(PETSc::Boundary &b, const TALYFEMLIB::ZEROPTV &pos);
+
 public:
   LEBCSetup(SubDomainBoundary *boundary, LEInputData *inputData)
       : input_data_(inputData), boundaries_(boundary)
@@ -76,6 +78,53 @@ return returnleftShearTestBoundary(b, position);
   };
 
 };
+void LEBCSetup::returnDirichletBoundary(PETSc::Boundary &b, const TALYFEMLIB::ZEROPTV &pos) {
+    static const double eps = 1e-15;
+
+    bool x_minus_wall = fabs(pos.x() - input_data_->mesh_def.physDomain.min[0]) < eps;
+    bool x_max_wall = fabs(pos.x() - input_data_->mesh_def.physDomain.max[0]) < eps;
+    bool y_minus_wall = fabs(pos.y() - input_data_->mesh_def.physDomain.min[1]) < eps;
+    bool y_plus_wall = fabs(pos.y() - input_data_->mesh_def.physDomain.max[1]) < eps;
+
+#if DIM ==3
+    bool z_minus_wall = fabs(pos.z() - input_data_->mesh_def.physDomain.min[2]) < eps;
+    bool z_plus_wall = fabs(pos.z() - input_data_->mesh_def.physDomain.max[2]) < eps;
+#endif
+
+
+    if(x_minus_wall)
+    {
+
+//  criteria for setting the dirichlet BC in x_minus_wall
+//  set based on that criteria
+//  we don't want to recompile for this
+        b.addDirichlet(0, 0); // x-dir displacement
+
+    }
+    if(y_minus_wall)
+    {
+        b.addDirichlet(1, 0); // y-dir displacement
+    }
+    if(y_plus_wall)
+    {
+        b.addDirichlet(1, 0); // y-dir displacement
+    }
+    if(x_max_wall)
+    {
+        b.addDirichlet(0, 0); // x-dir displacement
+    }
+#if DIM ==3
+    if(z_minus_wall)
+    {
+        b.addDirichlet(2, 0); // z-dir displacement
+    }
+    if(z_plus_wall)
+    {
+        b.addDirichlet(2, 0); // z-dir displacement
+    }
+#endif
+}
+
 
 void LEBCSetup::returnDisplacementBothSideBoundary(PETSc::Boundary &b, const TALYFEMLIB::ZEROPTV &pos)
 {
@@ -201,12 +250,17 @@ void LEBCSetup::returnleftShearTestBoundary(PETSc::Boundary &b, const TALYFEMLIB
     bool x_minus_wall = fabs(pos.x() - input_data_->mesh_def.physDomain.min[0]) < eps;
     bool x_max_wall = fabs(pos.x() - input_data_->mesh_def.physDomain.max[0]) < eps;
     bool y_minus_wall = fabs(pos.y() - input_data_->mesh_def.physDomain.min[1]) < eps;
+    bool y_plus_wall = fabs(pos.y() - input_data_->mesh_def.physDomain.max[1]) < eps;
 
     if (x_minus_wall)
     {
         b.addDirichlet(0, 0); // x-dir displacemen
     }
     if(y_minus_wall)
+    {
+        b.addDirichlet(1, 0); // y-dir displacement
+    }
+    if(y_plus_wall)
     {
         b.addDirichlet(1, 0); // y-dir displacement
     }

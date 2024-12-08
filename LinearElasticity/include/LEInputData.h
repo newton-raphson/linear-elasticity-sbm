@@ -45,6 +45,7 @@ struct TractionBC
   double traction;
   std::vector<double> traction_vec;
   CaseDir direction;
+  bool boundary_fitted = false;
 
   void read_from_config(const libconfig::Setting &root)
   {
@@ -53,10 +54,15 @@ struct TractionBC
     {
       ReadVectorRoot(root, "traction", traction_vec);
     }
+    if(root.exists("boundary_fitted"))
+    {
+      boundary_fitted = root["boundary_fitted"];
+    }
     else
     {
       PrintError("TractionBC: traction not found");
     }
+    std::cout<< "boundary;_fitted: " << boundary_fitted << std::endl;
 //    read traction vector
     direction = read_dir_type(root["direction"]);
   }
