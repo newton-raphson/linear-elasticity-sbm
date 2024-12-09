@@ -176,19 +176,24 @@ int main(int argc, char *argv[])
 #endif
   }
 
-  if (inputData.SbmGeo == LEInputData::SBMGeo::RING and inputData.InsideSBM)
-  {
-    const double coordsCenter[DIM]{1.0, 1.0};
-    subDomain.addObject(VOXEL::Circle(coordsCenter, 1.0 - 1.7 / pow(2, inputData.mesh_def.refine_lvl_base), RetainSide::IN));
-    subDomain.addObject(VOXEL::Circle(coordsCenter, 0.25 + 1.7 / pow(2, inputData.mesh_def.refine_lvl_base), RetainSide::OUT));
-  }
-  else
-  {
+//  if (inputData.SbmGeo == LEInputData::SBMGeo::RING)
+//  {
+//// make sure we go here pleaseee
+//
+////////////////////////////// SBM RING ////////////////////////////
+//std::cout<<"SBM RING"<<std::endl;
+//
+    const double coordsCenter[DIM]{1.25, 1.25};
+    subDomain.addObject(VOXEL::Circle(coordsCenter, 1.0 - 2.5 / pow(2, inputData.mesh_def.refine_lvl_base), RetainSide::IN));
+    subDomain.addObject(VOXEL::Circle(coordsCenter, 0.25 + 2.5 / pow(2, inputData.mesh_def.refine_lvl_base), RetainSide::OUT));
+//  }
+//  else
+//  {
     for (const auto &c : ibm_geoms)
     {
       subDomain.addObject(c);
     }
-  }
+//  }
 
   /// carving subda
   std::function<ibm::Partition(const double *, double)> functionToRetain = [&](const double *physCoords, double physSize)
@@ -241,72 +246,71 @@ int main(int argc, char *argv[])
 
     my_kd_tree_t kd_tree(3 /*dim*/, CenterPts, {10 /* max leaf */});
 
-
     octDA = createSubDA(dTree, functionToRetain, levelBase, eleOrder);
   subDomain.finalize(octDA, dTree.getTreePartFiltered(), domainExtents);
-  int no_refine = util_funcs::performRefinementSubDA(octDA, domainExtents, dTree, inputData, &subDomain);
+//  int no_refine = util_funcs::performRefinementSubDA(octDA, domainExtents, dTree, inputData, &subDomain);
 
-  PrintStatus("Number of refinement = ", no_refine);
+//  PrintStatus("Number of refinement = ", no_refine);
 
 #pragma mark OptSug
 
-    //////////////// Preventing losing elements /////////////////
-  if (inputData.ibm_geom_def.size() != 0)
-  {
-
-    int BoundaryMaxRefinelvl = -1;
-
-    if (no_refine > 0)
-    {
-      for (int geomID = 0; geomID < inputData.ibm_geom_def.size(); geomID++)
-      {
-        BoundaryMaxRefinelvl = std::max(BoundaryMaxRefinelvl,
-                                        static_cast<int>(inputData.ibm_geom_def.at(geomID).refine_lvl));
-      }
-    }
-
-      while (true) {
-          DARefine refine(octDA, dTree.getTreePartFiltered(), domainExtents,inputData.mesh_def.refine_lvl_base, false);
-
-          DA *newDA = refine.getRefineSubDA(dTree, 0.03,
-                                            ot::RemeshPartition::SurrogateOutByIn);
-          if (newDA == nullptr) {
-              break;
-          }
-          std::swap(newDA, octDA);
-          delete newDA;
-
-          subDomain.finalize(octDA, dTree.getTreePartFiltered(), domainExtents);
-      }
-
-      while (true) {
-          DARefine refine(octDA, dTree.getTreePartFiltered(), domainExtents, inputData.mesh_def.refine_lvl_base + 1, true);
-
-          DA *newDA = refine.getRefineSubDA(dTree, 0.03,
-                                            ot::RemeshPartition::SurrogateOutByIn);
-          if (newDA == nullptr) {
-              break;
-          }
-          std::swap(newDA, octDA);
-          delete newDA;
-
-          subDomain.finalize(octDA, dTree.getTreePartFiltered(), domainExtents);
-      }
-
-      {
-          while (true) {
-              DACoarse refine(octDA, dTree.getTreePartFiltered(), domainExtents, inputData.mesh_def.refine_lvl_base, false);
-              DA *newDA = refine.getRefineSubDA(dTree, 0.03,
-                                                ot::RemeshPartition::SurrogateInByOut);
-              if (newDA == nullptr) {
-                  break;
-              }
-              std::swap(newDA, octDA);
-              delete newDA;
-
-              subDomain.finalize(octDA, dTree.getTreePartFiltered(), domainExtents);
-          }
-      }  }
+//    //////////////// Preventing losing elements /////////////////
+//  if (inputData.ibm_geom_def.size() != 0)
+//  {
+//
+//    int BoundaryMaxRefinelvl = -1;
+//
+//    if (no_refine > 0)
+//    {
+//      for (int geomID = 0; geomID < inputData.ibm_geom_def.size(); geomID++)
+//      {
+//        BoundaryMaxRefinelvl = std::max(BoundaryMaxRefinelvl,
+//                                        static_cast<int>(inputData.ibm_geom_def.at(geomID).refine_lvl));
+//      }
+//    }
+//
+//      while (true) {
+//          DARefine refine(octDA, dTree.getTreePartFiltered(), domainExtents,inputData.mesh_def.refine_lvl_base, false);
+//
+//          DA *newDA = refine.getRefineSubDA(dTree, 0.03,
+//                                            ot::RemeshPartition::SurrogateOutByIn);
+//          if (newDA == nullptr) {
+//              break;
+//          }
+//          std::swap(newDA, octDA);
+//          delete newDA;
+//
+//          subDomain.finalize(octDA, dTree.getTreePartFiltered(), domainExtents);
+//      }
+//
+//      while (true) {
+//          DARefine refine(octDA, dTree.getTreePartFiltered(), domainExtents, inputData.mesh_def.refine_lvl_base + 1, true);
+//
+//          DA *newDA = refine.getRefineSubDA(dTree, 0.03,
+//                                            ot::RemeshPartition::SurrogateOutByIn);
+//          if (newDA == nullptr) {
+//              break;
+//          }
+//          std::swap(newDA, octDA);
+//          delete newDA;
+//
+//          subDomain.finalize(octDA, dTree.getTreePartFiltered(), domainExtents);
+//      }
+//
+//      {
+//          while (true) {
+//              DACoarse refine(octDA, dTree.getTreePartFiltered(), domainExtents, inputData.mesh_def.refine_lvl_base, false);
+//              DA *newDA = refine.getRefineSubDA(dTree, 0.03,
+//                                                ot::RemeshPartition::SurrogateInByOut);
+//              if (newDA == nullptr) {
+//                  break;
+//              }
+//              std::swap(newDA, octDA);
+//              delete newDA;
+//
+//              subDomain.finalize(octDA, dTree.getTreePartFiltered(), domainExtents);
+//          }
+//      }  }
 
   TALYFEMLIB::PrintStatus("total No of nodes in the mesh = ", octDA->getGlobalNodeSz());
 

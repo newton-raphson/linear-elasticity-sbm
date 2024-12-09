@@ -211,6 +211,7 @@ void SBMCalc::Dist2Geo(double (&d)[DIM], int &geom_ID)
     auto &geo_tmp = idata_->ibm_geom_def.at(0);
     double radius_tmp = sqrt(pow(x - geo_tmp.InitialDisplacement.x(), 2) + pow(y - geo_tmp.InitialDisplacement.y(), 2));
 
+
     DENDRITE_REAL R2;
     double rad;
 
@@ -233,15 +234,25 @@ void SBMCalc::Dist2Geo(double (&d)[DIM], int &geom_ID)
     double x_mid = geo.InitialDisplacement.x();
     double y_mid = geo.InitialDisplacement.y();
 
-    double radius = sqrt(pow(x - x_mid, 2) + pow(y - y_mid, 2));
 
     double radius_gp = sqrt((x - x_mid) * (x - x_mid) + (y - y_mid) * (y - y_mid));
-    d[0] = (rad * (x - x_mid) / radius_gp + x_mid - x);
-    d[1] = (rad * (y - x_mid) / radius_gp + y_mid - y);
+
+    double y_cirlce = (y-y_mid)/radius_gp*rad + y_mid;
+    double x_cirlce = (x-x_mid)/radius_gp*rad + x_mid;
+
+
+    d[0] = x_cirlce - x;
+    d[1] = y_cirlce - y;
+    double dist = sqrt(d[0]*d[0] + d[1]*d[1]);
+    assert(fabs(dist - fabs(rad-radius_gp)) < 1e-10);
+
+////    i am not superly convinced about this calculation
+//    d[0] = (rad * (x - x_mid) / radius_gp + x_mid - x);
+//    d[1] = (rad * (y - y_mid) / radius_gp + y_mid - y);
+
 
     break;
   }
-
   case LEInputData::SBMGeo::ROTATE:
   {
     double x_true = cos(M_PI / 4) * (x - 0.5 - shift_[0]) - sin(M_PI / 4) * (y - 0.5 - shift_[1]) + 0.5;
@@ -269,7 +280,6 @@ void SBMCalc::Dist2Geo(double (&d)[DIM], int &geom_ID)
     d[1] = -sin(M_PI / 4) * d0 + cos(M_PI / 4) * d1;
     break;
   }
-
   case LEInputData::SBMGeo::BUNNY:
   case LEInputData::SBMGeo::STAR:
   {
@@ -508,164 +518,6 @@ void SBMCalc::NormalofGeo(ZEROPTV &normal, const double (&d)[DIM])
 
 
 
-}
-
-void SBMCalc::GetDirichletBC(const double (&d_)[DIM], double *DirichletBCValue, bool &DirichletHaveSet)
-{
-  const ZEROPTV pt = fe_.position();
-
-  double x_true = pt.x() + d_[0];
-  double y_true = pt.y() + d_[1];
-#if (DIM == 2)
-
-  switch (idata_->SbmGeo)
-  {
-      case LEInputData::SBMGeo::CIRCLE:
-      case LEInputData::SBMGeo::STAR:
-      {
-
-          DirichletBCValue[0] = sin(M_PI*x_true)*cos(M_PI*y_true)/10.0;
-          DirichletBCValue[1] = cos(M_PI*x_true)*sin(M_PI*y_true)/10.0;
-
-          DirichletHaveSet = true;
-
-          break;
-      }
-//      case LEInputData::SBMGeo::CIRCLE:
-//  {
-//
-//    DirichletBCValue[0] = -cos(M_PI*x_true)*sin(M_PI*y_true)/10.0;
-//    DirichletBCValue[1] = sin(M_PI*x_true/7)*sin(M_PI*y_true/3)/10.0;
-//
-//    DirichletHaveSet = true;
-//
-//    break;
-//  }
-
-
-  case LEInputData::SBMGeo::ROTATE:
-  {
-    double x_rot = cos(M_PI / 4) * (pt.x() - 0.5 - shift_[0]) - sin(M_PI / 4) * (pt.y() - 0.5 - shift_[1]) + 0.5;
-    double y_rot = sin(M_PI / 4) * (pt.x() - 0.5 - shift_[0]) + cos(M_PI / 4) * (pt.y() - 0.5 - shift_[1]) + 0.5;
-
-    double d0, d1;
-    if ((x_rot - min_domain) * (x_rot - max_domain) < 0)
-    {
-      d0 = 0;
-      d1 = (fabs(y_rot - min_domain) > fabs(y_rot - max_domain)) ? max_domain - y_rot : min_domain - y_rot;
-    }
-    else if ((y_rot - min_domain) * (y_rot - max_domain) < 0)
-    {
-      d1 = 0;
-      d0 = (fabs(x_rot - min_domain) > fabs(x_rot - max_domain)) ? max_domain - x_rot : min_domain - x_rot;
-    }
-    else
-    {
-      d0 = (fabs(x_rot - min_domain) > fabs(x_rot - max_domain)) ? max_domain - x_rot : min_domain - x_rot;
-      d1 = (fabs(y_rot - min_domain) > fabs(y_rot - max_domain)) ? max_domain - y_rot : min_domain - y_rot;
-    }
-
-    double x_true2 = x_rot + d0;
-    double y_true2 = y_rot + d1;
-
-    DirichletBCValue[0] = -cos(M_PI*x_true2)*sin(M_PI*y_true2)/10.0;
-    DirichletBCValue[1] = sin(M_PI*x_true2/7)*sin(M_PI*y_true2/3)/10.0;
-
-    DirichletHaveSet = true;
-
-    break;
-  }
-
-  case LEInputData::SBMGeo::BUNNY:
-  {
-
-  }
-
-
-      default:
-  {
-    break;
-  }
-  }
-
-#endif
-
-#if (DIM == 3)
-  double z_true = pt.z() + d_[2];
-
-  /// todo: implementation of dirichlet BC values for LE
-
-  ZEROPTV pt_true{x_true, y_true, z_true};
-
-  if (idata_->bccaseType == POSITION_DISPLACEMENT){
-
-      /// TODO: Ashton can change it
-//      DirichletBCValue[0] = sin(M_PI*x_true)*cos(M_PI*y_true)*sin(M_PI*z_true)/10.0;
-//      DirichletBCValue[1] = cos(M_PI*x_true)*sin(M_PI*y_true)*sin(M_PI*z_true)/10.0;
-//      DirichletBCValue[2] = sin(M_PI*x_true)*sin(M_PI*y_true)*cos(M_PI*z_true)/20.0;
-//      DirichletBCValue[0] = sin(M_PI*x_true)/1e5;
-//      DirichletBCValue[1] = cos(M_PI*z_true)/1e5;
-//      DirichletBCValue[2] = sin(M_PI*y_true)/1e5;
-
-//        ZEROPTV normal{x_true - 1.0, y_true - 1.0, z_true - 1.0}; // this is only for sphere!!!
-////        /// TODO: Stanford buuny and complex shapes needs to be implemented
-////
-//        double scaling = 1e-2;
-//        normal.SafeNormalize();
-//        DirichletBCValue[0] = scaling*normal.x();
-//        DirichletBCValue[1] = scaling*normal.y();
-//        DirichletBCValue[2] = scaling*normal.z();
-
-      double max_displacement = 1.5e-5;
-      double eps = 1e-8;
-//        only apply drichlet boundary condition there
-//      if(fabs(y_true)<eps)
-//      {
-
-//    TALYFEMLIB::PrintStatus("applying bc");
-
-      DirichletBCValue[0] = 0;
-      DirichletBCValue[1] = x_true*max_displacement/1.70942;
-      DirichletBCValue[2] = 0;
-      DirichletHaveSet = true;
-      return;
-  }
-
-  switch (idata_->SbmGeo)
-  {
-   case LEInputData::SBMGeo::SPHERE:
-  {
-      DirichletBCValue[0] = sin(M_PI*x_true)*cos(M_PI*y_true)*sin(M_PI*z_true)/10.0;
-      DirichletBCValue[1] = cos(M_PI*x_true)*sin(M_PI*y_true)*sin(M_PI*z_true)/10.0;
-      DirichletBCValue[2] = sin(M_PI*x_true)*sin(M_PI*y_true)*cos(M_PI*z_true)/20.0;
-      DirichletHaveSet = true;
-
-      break;
-  }
-
-  case LEInputData::SBMGeo::BUNNY3D:
-  {
-    break;
-  }
-
-  case LEInputData::SBMGeo::MOAI:
-
-  {
-    break;
-  }
-
-  case LEInputData::SBMGeo::ARM:
-  {
-    break;
-  }
-
-  default:
-  {
-    break;
-  }
-  }
-
-#endif
 }
 
 #endif // LE_KT_SBMCALC_H

@@ -212,6 +212,23 @@ void CalcError::traverseOperation(TALYFEMLIB::FEMElm &fe, const PetscScalar *val
 
                 default:
                 {
+                    for (DENDRITE_UINT dof = 0; dof < ndof; dof++)
+                    {
+                        const double x_mid = geo_tmp.InitialDisplacement.x();
+                        const double y_mid = geo_tmp.InitialDisplacement.y();
+                        const DENDRITE_REAL r = sqrt((fe.position().x() - x_mid) * (fe.position().x() - x_mid) + (fe.position().y() - x_mid) * (fe.position().y() - x_mid));
+                        double cosx = (fe.position().x() - x_mid) / r;
+                        double sinx = (fe.position().y() - y_mid) / r;
+
+                        val_a = (idata_->CalcUxError)? -r * log(r) / 2 / log(2) * cosx: -r * log(r) / 2 / log(2) * sinx;
+
+                        localError += (val_c_ - val_a) * (val_c_ - val_a) * fe.detJxW();
+
+                        if (LInferror_ < fabs(val_c_ - val_a))
+                        {
+                            LInferror_ = fabs(val_c_ - val_a);
+                        }
+                    }
                     break;
                 }
             }
