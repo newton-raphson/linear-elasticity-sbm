@@ -42,6 +42,7 @@ public:
 //      std::cout << "input_data_->bccaseType = " << input_data_->bccaseType << "\n";
 
 if(input_data_->bccaseType == BCCaseType::ZERO_TRACTION){
+//    return;
         double x_min = input_data_->mesh_def.physDomain.min[0];
       double y_min = input_data_->mesh_def.physDomain.min[1];
       double x_max = input_data_->mesh_def.physDomain.max[0];

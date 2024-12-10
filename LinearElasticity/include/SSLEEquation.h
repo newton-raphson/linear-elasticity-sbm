@@ -241,7 +241,6 @@ public:
       double r_value = 0;
       double radius = sqrt(pow(x - x_mid, 2) + pow(y - y_mid, 2));
       r_value = BR_V * pow(radius, BR_POW);
-      // std::cout<<"r_value:"<<r_value<<"\n";
       double sin_x = (x - x_mid) / radius;
       double sin_y = (y - y_mid) / radius;
       be(2 * a) += fe.N(a) * r_value * sin_x * fe.detJxW();
@@ -292,7 +291,6 @@ public:
       if (idata_->ibm_geom_def.size() == 0) {
           return;
       }
-
 
     assert(method == IBM_METHOD::SBM);
 
@@ -378,75 +376,74 @@ else {
 
 ///////////////////////////////////////////////////////////////////////////
 
-    if(case_type== NORMAL_TRACTION)
-        {
-        std::cout<<"NORMAL_TRACTION\n";
-            //////////////////////////////////////weak//////////////////////////////////////////
+//    if(case_type== NORMAL_TRACTION)
+//        {
+//            //////////////////////////////////////weak//////////////////////////////////////////
+//
+//            CalcCmatrix(Cmatrix);
+//    //            Strain Dot Distance Matrix
+//            CalcGradStrainDotDistance(fe, gradStrainDotDistance, d);
+//
+//    //            multiply Cmatrix with gradStrainDotDistance
+//            std::vector<std::vector<double>> CMatrixGradStrainDotDistance(DIM * n_basis_functions);
+//
+//    //            just use THIS FUNCTION TO MULTIPLY THE TWO MAT IT'S ALREADY IMPLEMENTED
+//            CalcBeCmatrix(fe, gradStrainDotDistance, Cmatrix, CMatrixGradStrainDotDistance);
+//    //            multiply CMatrixGradStrainDotDistance with normal
+//            CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
+//    //            multiply CMatrixGradStrainDotDistance with normal
+//            std::vector<std::vector<double>> Hessian_Dot_Normal(DIM * n_basis_functions);
+//    //            Hessian_Dot_Normal is DIM * (n_basis_functions*DIM)
+//            CalcStressDotNormal(fe, CMatrixGradStrainDotDistance, SurrogateNormalMatrix, Hessian_Dot_Normal);
+//
+//
+//    //            get the basis matrix , we are just doing this to make our life easier
+//            std::vector<std::vector<double>> basisMatrix(DIM * n_basis_functions);
+//
+//            CalcBasisMatrix(fe, basisMatrix);
+//    #ifndef NDEBUG
+//            for (int i = 0; i < DIM * n_basis_functions; i++) {
+//                for (int j = 0; j < DIM; j++) {
+//                    if (std::isnan(basisMatrix[i][j])) {
+//                        std::cout << "basisMatrix is nan\n";
+//                    }
+//                }
+//            }
+//            for (int i = 0; i < DIM * n_basis_functions; i++) {
+//                for (int j = 0; j < DIM; j++) {
+//                    if (std::isnan(Hessian_Dot_Normal[i][j])) {
+//                        std::cout << "Hessian_Dot_Normal is nan\n";
+//                    }
+//                }
+//            }
+//    #endif
+//
+//    /// THIS IS THE MAIN INTEGRAL WE ARE LOOKING FOR
+//
+//
+//            for (int a = 0; a < DIM * n_basis_functions; a++) {
+//                for (int b = 0; b < DIM * n_basis_functions; b++) {
+//                    double N = 0;
+//                    for (int k = 0; k < DIM; k++) {
+//                        N += Hessian_Dot_Normal[a][k] * basisMatrix[b][k] * detSideJxW;
+//
+//
+//                    }
+//                    Ae(a, b) += N;
+//                }
+//            }
+//
+//            return;
+//        }
+//
+//
+//
+//
+//
 
-            CalcCmatrix(Cmatrix);
-    //            Strain Dot Distance Matrix
-            CalcGradStrainDotDistance(fe, gradStrainDotDistance, d);
-
-    //            multiply Cmatrix with gradStrainDotDistance
-            std::vector<std::vector<double>> CMatrixGradStrainDotDistance(DIM * n_basis_functions);
-
-    //            just use THIS FUNCTION TO MULTIPLY THE TWO MAT IT'S ALREADY IMPLEMENTED
-            CalcBeCmatrix(fe, gradStrainDotDistance, Cmatrix, CMatrixGradStrainDotDistance);
-    //            multiply CMatrixGradStrainDotDistance with normal
-            CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
-    //            multiply CMatrixGradStrainDotDistance with normal
-            std::vector<std::vector<double>> Hessian_Dot_Normal(DIM * n_basis_functions);
-    //            Hessian_Dot_Normal is DIM * (n_basis_functions*DIM)
-            CalcStressDotNormal(fe, CMatrixGradStrainDotDistance, SurrogateNormalMatrix, Hessian_Dot_Normal);
+//    if (case_type == POSITION_DISPLACEMENT) {
 
 
-    //            get the basis matrix , we are just doing this to make our life easier
-            std::vector<std::vector<double>> basisMatrix(DIM * n_basis_functions);
-
-            CalcBasisMatrix(fe, basisMatrix);
-    #ifndef NDEBUG
-            for (int i = 0; i < DIM * n_basis_functions; i++) {
-                for (int j = 0; j < DIM; j++) {
-                    if (std::isnan(basisMatrix[i][j])) {
-                        std::cout << "basisMatrix is nan\n";
-                    }
-                }
-            }
-            for (int i = 0; i < DIM * n_basis_functions; i++) {
-                for (int j = 0; j < DIM; j++) {
-                    if (std::isnan(Hessian_Dot_Normal[i][j])) {
-                        std::cout << "Hessian_Dot_Normal is nan\n";
-                    }
-                }
-            }
-    #endif
-
-    /// THIS IS THE MAIN INTEGRAL WE ARE LOOKING FOR
-
-
-            for (int a = 0; a < DIM * n_basis_functions; a++) {
-                for (int b = 0; b < DIM * n_basis_functions; b++) {
-                    double N = 0;
-                    for (int k = 0; k < DIM; k++) {
-                        N += Hessian_Dot_Normal[a][k] * basisMatrix[b][k] * detSideJxW;
-
-
-                    }
-                    Ae(a, b) += N;
-                }
-            }
-
-            return;
-        }
-
-
-
-      return;
-
-    if (case_type == POSITION_DISPLACEMENT) {
-
-
-        std::cout<<"POSITION_DISPLACEMENT\n";
           CalcCmatrix(Cmatrix);
           CalcBe(fe, Be);
           CalcBeCmatrix(fe, Be, Cmatrix, BeCmatrix);
@@ -459,6 +456,9 @@ else {
           memset(Ne_con_, 0.0, sizeof Ne_con_);
 
           DENDRITE_REAL secondOrderTerm_a_(0);
+
+          //////////////////////////////////////weak//////////////////////////////////////////
+//        Adjoint Consistency in LHS is  <u + \grad u * d,C\grad w \cdot \tilde{n}>
           for (int j = 0; j < n_basis_functions; j++)
           {
               // secondOrderTerm_a = d[0] * (fe.d2N(j, 0, 0) * d[0] + fe.d2N(j, 0, 1) * d[1]) + d[1] * (fe.d2N(j, 1, 0) * d[0] + fe.d2N(j, 1, 1) * d[1]) / 2;
@@ -613,343 +613,6 @@ else {
 
 
           return;
-      }
-
-//    if (geo.bc_type_D[0] == IBMGeomDef::BCType::DIRICHLET ||
-//        geo.bc_type_D[1] == IBMGeomDef::BCType::DIRICHLET ||
-//        geo.bc_type_D[0] == IBMGeomDef::BCType::W_RADIAL ||
-//        geo.bc_type_D[0] == IBMGeomDef::BCType::SBM_NEUMANN_RADIAL ||
-//        cantilever_Neumann_SBM ||
-//        cantilever_Dirichlet_SBM ||
-//        /*below only works for lambda = 1*/
-//            (idata_->RatioGPSBM == 1 and side_idx < BoundaryTypes::MAX_WALL_TYPE_BOUNDARY and idata_->boundary_def.at(side_idx).disp_type == BoundaryDef::Disp_Type::SBM_ZERO_DIRICHLET))
-//    {
-//
-//#ifndef NDEBUG
-////        std::cout << "integrations over surface GPs \n";
-//#endif
-//
-//      CalcCmatrix(Cmatrix);
-//      CalcBe(fe, Be);
-//      CalcBeCmatrix(fe, Be, Cmatrix, BeCmatrix);
-//      CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
-//      CalcStressDotNormal(fe, BeCmatrix, SurrogateNormalMatrix, StressDotSurrogateNormal); // (DIM*fe.nbf()) * DIM
-//    }
-//
-//    //      for (int i = 0;i<DIM*fe.nbf();i++){
-//    //          for (int j=0;j<DIM;j++){
-//    //              std::cout << "StressDotSurrogateNormal[i][j]=" << StressDotSurrogateNormal[i][j] << "\n";
-//    //          }
-//    //      }
-//
-//#ifndef NDEBUG
-////      std::cout << "idata_->RatioGPSBM = " << idata_->RatioGPSBM << "\n ";
-//#endif
-//
-//    if (geo.bc_type_D[0] == IBMGeomDef::BCType::DIRICHLET ||
-//        geo.bc_type_D[1] == IBMGeomDef::BCType::DIRICHLET ||
-//        geo.bc_type_D[0] == IBMGeomDef::BCType::W_RADIAL ||
-//        cantilever_Dirichlet_SBM ||
-//        /*below only works for lambda = 1*/
-//        (fabs(idata_->RatioGPSBM-1)< 1e-12 and side_idx < BoundaryTypes::MAX_WALL_TYPE_BOUNDARY and idata_->boundary_def.at(side_idx).disp_type == BoundaryDef::Disp_Type::SBM_ZERO_DIRICHLET))
-//    {
-//
-//      /// wall normal distance
-//      // std::cout<<"h:"<<h<<"\n";
-//      double weakBCpenaltyParameter = util_funcs::ReturnPenaltyParameters(idata_) * Cb_e / h;
-//
-//      double Ne[DIM][DIM * n_basis_functions];
-//      memset(Ne, 0.0, sizeof Ne);
-//      if (IFSBM)
-//      {
-//        DENDRITE_REAL secondOrderTerm_a(0);
-//        for (int j = 0; j < n_basis_functions; j++)
-//
-//        {
-//          // secondOrderTerm_a = d[0] * (fe.d2N(j, 0, 0) * d[0] + fe.d2N(j, 0, 1) * d[1]) + d[1] * (fe.d2N(j, 1, 0) * d[0] + fe.d2N(j, 1, 1) * d[1]) / 2;
-//          double gradWdotd = 0.0;
-//          for (int dim = 0; dim < DIM; dim++)
-//          {
-//            gradWdotd += fe.dN(j, dim) * d[dim];
-//          }
-//
-//          for (int dim = 0; dim < DIM; dim++)
-//          {
-//            for (int dim2 = 0; dim2 < DIM; dim2++)
-//            {
-//              if (dim2 == dim)
-//              {
-//                Ne[dim][DIM * j + dim2] = fe.N(j) + gradWdotd + secondOrderTerm_a;
-//              }
-//              else
-//              {
-//                Ne[dim][DIM * j + dim2] = 0.0;
-//              }
-//            }
-//          }
-//
-//          // todo: print Ne to see whether it is correct
-//
-//          //          Ne[0][2 * j] = fe.N(j) + gradWdotd + secondOrderTerm_a;
-//          //          Ne[0][2 * j + 1] = 0;
-//          //          Ne[1][2 * j] = 0;
-//          //          Ne[1][2 * j + 1] = fe.N(j) + gradWdotd + secondOrderTerm_a;
-//        }
-//      }
-//
-//
-//      else
-//      {
-//        for (int j = 0; j < n_basis_functions; j++)
-//        {
-//          for (int dim = 0; dim < DIM; dim++)
-//          {
-//            for (int dim2 = 0; dim2 < DIM; dim2++)
-//            {
-//              if (dim2 == dim)
-//              {
-//                Ne[dim][DIM * j + dim2] = fe.N(j);
-//              }
-//              else
-//              {
-//                Ne[dim][DIM * j + dim2] = 0.0;
-//              }
-//            }
-//          }
-//          //          Ne[0][2 * j] = fe.N(j);
-//          //          Ne[0][2 * j + 1] = 0;
-//          //          Ne[1][2 * j] = 0;
-//          //          Ne[1][2 * j + 1] = fe.N(j);
-//        }
-//      }
-//      double Ne_con[DIM][DIM * n_basis_functions];
-//      memset(Ne_con, 0.0, sizeof Ne_con);
-//
-//      for (int j = 0; j < n_basis_functions; j++)
-//      {
-//        for (int dim = 0; dim < DIM; dim++)
-//        {
-//          for (int dim2 = 0; dim2 < DIM; dim2++)
-//          {
-//            if (dim2 == dim)
-//            {
-//              Ne_con[dim][DIM * j + dim2] = fe.N(j);
-//            }
-//            else
-//            {
-//              Ne_con[dim][DIM * j + dim2] = 0.0;
-//            }
-//          }
-//        }
-//        //        Ne_con[0][2 * j] = fe.N(j);
-//        //        Ne_con[0][2 * j + 1] = 0;
-//        //        Ne_con[1][2 * j] = 0;
-//        //        Ne_con[1][2 * j + 1] = fe.N(j);
-//      }
-//
-//      // for Final term => B_T*C_T*n*N
-//      const double detJxW = fe.detJxW();
-//      for (int a = 0; a < DIM * n_basis_functions; a++)
-//      {
-//        for (int b = 0; b < DIM * n_basis_functions; b++)
-//        {
-//          double N = 0;
-//          double N_con = 0;
-//          // StressDotSurrogateNormal -> (DIM*fe.nbf()) * DIM
-//          for (int k = 0; k < DIM; k++)
-//          {
-//            N += StressDotSurrogateNormal[a][k] * Ne[k][b] * detJxW;
-//            N_con += StressDotSurrogateNormal[a][k] * Ne_con[k][b] * detJxW;
-//          }
-//          // Ae is symmetric
-//
-//          if (idata_->IfAdjointConsistency)
-//          {
-//            // std::cout << " N = " << N << "\n";
-//            Ae(a, b) += N; // adjoint consistency
-//          }
-//
-//          // std::cout << " N_con = " << N_con << "\n";
-//          Ae(b, a) -= N_con; // consistency
-//        }
-//      }
-//
-//      if (IFSBM)
-//      {
-//        DENDRITE_REAL secondOrderTerm_a(0), secondOrderTerm_b(0);
-//
-//        for (int a = 0; a < fe.nbf(); a++)
-//        {
-//#if (DIM == 2)
-//          if (idata_->elemOrder == 2)
-//          {
-//            secondOrderTerm_a = (d[0] * (fe.d2N(a, 0, 0) * d[0] + fe.d2N(a, 0, 1) * d[1]) +
-//                                 d[1] * (fe.d2N(a, 1, 0) * d[0] + fe.d2N(a, 1, 1) * d[1])) /
-//                                2;
-//          }
-//          else
-//          {
-//            secondOrderTerm_a = 0;
-//          }
-//#endif
-//
-//#if (DIM == 3)
-//          if (idata_->elemOrder == 2)
-//          {
-//
-//            secondOrderTerm_a = (d[0] * (fe.d2N(a, 0, 0) * d[0] + fe.d2N(a, 0, 1) * d[1] + fe.d2N(a, 0, 2) * d[2]) + d[1] * (fe.d2N(a, 1, 0) * d[0] + fe.d2N(a, 1, 1) * d[1] + fe.d2N(a, 1, 2) * d[2]) + d[2] * (fe.d2N(a, 2, 0) * d[0] + fe.d2N(a, 2, 1) * d[1] + fe.d2N(a, 2, 2) * d[2])) / 2;
-//          }
-//          else
-//          {
-//            secondOrderTerm_a = 0;
-//          }
-//#endif
-//
-//          double gradWdotd = 0.0;
-//          for (int k = 0; k < DIM; k++)
-//          {
-//            gradWdotd += fe.dN(a, k) * d[k];
-//          }
-//
-//          for (int b = 0; b < fe.nbf(); b++)
-//          {
-//#if (DIM == 2)
-//            if (idata_->elemOrder == 2)
-//            {
-//              secondOrderTerm_b = (d[0] * (fe.d2N(b, 0, 0) * d[0] + fe.d2N(b, 0, 1) * d[1]) +
-//                                   d[1] * (fe.d2N(b, 1, 0) * d[0] + fe.d2N(b, 1, 1) * d[1])) /
-//                                  2;
-//            }
-//            else
-//            {
-//              secondOrderTerm_b = 0;
-//            }
-//#endif
-//
-//#if (DIM == 3)
-//            if (idata_->elemOrder == 2)
-//            {
-//
-//              secondOrderTerm_b = (d[0] * (fe.d2N(b, 0, 0) * d[0] + fe.d2N(b, 0, 1) * d[1] + fe.d2N(b, 0, 2) * d[2]) + d[1] * (fe.d2N(b, 1, 0) * d[0] + fe.d2N(b, 1, 1) * d[1] + fe.d2N(b, 1, 2) * d[2]) + d[2] * (fe.d2N(b, 2, 0) * d[0] + fe.d2N(b, 2, 1) * d[1] + fe.d2N(b, 2, 2) * d[2])) / 2;
-//            }
-//            else
-//            {
-//              secondOrderTerm_b = 0;
-//            }
-//#endif
-//            double gradUdotd = 0.0;
-//            for (int k = 0; k < DIM; k++)
-//            {
-//              gradUdotd += fe.dN(b, k) * d[k];
-//            }
-//
-//            /*
-//             *  make it j to match with what's inside Navier-Stokes
-//             */
-//            for (int j = 0; j < DIM; j++)
-//            {
-//              Ae(DIM * a + j, DIM * b + j) +=
-//                  +weakBCpenaltyParameter * (fe.N(a) + gradWdotd + secondOrderTerm_a) * (fe.N(b) + gradUdotd + secondOrderTerm_b) * detSideJxW; // penalty
-//            }
-//          } // b loop
-//        }   // a loop
-//      }
-//      else
-//      {
-//        for (int a = 0; a < fe.nbf(); a++)
-//        {
-//          for (int b = 0; b < fe.nbf(); b++)
-//          {
-//            /*
-//             *  make it j to match with what's inside Navier-Stokes
-//             */
-//            for (int j = 0; j < DIM; j++)
-//            {
-//              Ae(DIM * a + j, DIM * b + j) +=
-//                  +weakBCpenaltyParameter * (fe.N(a)) * (fe.N(b)) * detJxW; // penalty
-//            }
-//          } // b loop
-//        }   // a loop
-//      }
-//    }
-//    if(geo.bc_type_D[0] ==  IBMGeomDef::BCType::SBM_NEUMANN_RADIAL)
-//    {
-//        const ZEROPTV &p = fe.position();
-//        const ZEROPTV &SurrogateNormal = fe.surface()->normal();
-//
-//        ZEROPTV TrueNormal;
-//
-////        \Grad {\grad_s u} \cdot d
-//        double d[DIM];
-//        sbmCalc.Dist2Geo(d, geom_ID);
-//
-//
-//
-//    }
-//    if (geo.bc_type_D[0] == IBMGeomDef::BCType::SBM_NEUMANN_RADIAL || cantilever_Neumann_SBM)
-//    {
-//
-//      const ZEROPTV &p = fe.position();
-//      const ZEROPTV &SurrogateNormal = fe.surface()->normal();
-//
-//      ZEROPTV TrueNormal;
-//
-//      if (geo.bc_type_D[0] == IBMGeomDef::BCType::SBM_NEUMANN_RADIAL) {
-//          double x_mid = geo.InitialDisplacement.x();
-//          double y_mid = geo.InitialDisplacement.y();
-//
-//          double x = p.x();
-//          double y = p.y();
-//
-//          double radius = sqrt(pow(x - x_mid, 2) + pow(y - y_mid, 2));
-//          double sin_x = (x - x_mid) / radius;
-//          double sin_y = (y - y_mid) / radius;
-//          /// temporary using this -> need to implement SBMCalc inside!
-//          TrueNormal = ZEROPTV{sin_x, sin_y, 0.0};
-//      } else if (cantilever_Neumann_SBM){
-//          sbmCalc.NormalofGeo(TrueNormal,d);
-//      }
-//
-//      double TrueNormalMatrix[DIM][3 * (DIM - 1)];
-//      CalcTrueNormalMatrix(TrueNormal, TrueNormalMatrix);
-//
-//      // for mid2 term => B_T*C_T*n
-//      std::vector<std::vector<double>> StressDotTrueNormal(DIM * n_basis_functions);
-//      CalcStressDotNormal(fe, BeCmatrix, TrueNormalMatrix, StressDotTrueNormal);
-//
-//      double SurrogateDotTrueNormal = SurrogateNormal.innerProduct(TrueNormal);
-//
-//      // for Final term => B_T*C_T*n*N
-//
-//      const double detJxW = fe.detJxW();
-//
-//      for (int a = 0; a < n_basis_functions; a++) // test function
-//      {
-//        for (int b = 0; b < n_basis_functions; b++) // trial function
-//        {
-//          for (int i = 0; i < DIM; i++)
-//          {
-//            for (int j = 0; j < DIM; j++)
-//            {
-//              Ae(a * DIM + i, b * DIM + j) -= fe.N(a) * StressDotSurrogateNormal[b * DIM + j][i] * detJxW;                     // consistency
-//              Ae(a * DIM + i, b * DIM + j) += fe.N(a) * StressDotTrueNormal[b * DIM + j][i] * SurrogateDotTrueNormal * detJxW; // Area Correction
-//            }
-//          }
-//        }
-//      }
-//
-//      /// implement penalty
-//      for (int a = 0; a < DIM * n_basis_functions; a++) // test function
-//      {
-//        for (int b = 0; b < DIM * n_basis_functions; b++) // trial function
-//        {
-//          for (int k = 0; k < DIM; k++)
-//          {
-//            Ae(a, b) += TauN * StressDotTrueNormal[a][k] * StressDotTrueNormal[b][k] * pow(SurrogateDotTrueNormal, 2) * detJxW; // penalty
-//          }
-//        }
-//      }
-//    }
 
   }
 
@@ -1012,7 +675,7 @@ else {
 
 
     sbmCalc.NormalofGeo(TrueNormal,d);
-
+//
     double SurrogateDotTrueNormal = SurrogateNormal.innerProduct(TrueNormal);
 //
 //    double SurrogateDotTrueNormal = 1.0;
@@ -1036,39 +699,54 @@ else {
 
 
 //  PRINT THE VALUE OF THE SURROGATE DOT TRUE NORMAL
-
-
-
-    if(case_type == NORMAL_TRACTION)
-      {
-//          radial value of the traction is
-            double traction_radial =0.16096404744;
-            double traction_tangential = 0.0;
+if(case_type == NORMAL_TRACTION) {
+    double traction_radial = 0.16096404744;
+    double traction_tangential = 0.0;
 //            true position is
 
 
-          ZEROPTV traction  = {traction_radial*TrueNormal[0],traction_radial*TrueNormal[1],0};
+    ZEROPTV traction = {traction_radial * TrueNormal[0], traction_radial * TrueNormal[1], 0};
+//    std::cout<<
 
-
-
-          for (int a = 0; a < n_basis_functions; a++)
-          {
+    for (int a = 0; a < n_basis_functions; a++) {
 //              check if the surrogate dot true normal is nan or zero
 
-                    for (int dim = 0; dim < DIM ; dim++)
-                    {
-                            be(a + dim) += fe.N(a) * traction[dim] * detSideJxW / SurrogateDotTrueNormal;
-                    }
-          }
-
-
-
+        for (int dim = 0; dim < DIM; dim++) {
+            be(DIM*a + dim) += fe.N(a) * traction[dim] * detSideJxW;
+        }
+    }
+}
           return;
-      }
+
+//    if(case_type == NORMAL_TRACTION)
+//      {
+////          radial value of the traction is
+//            double traction_radial =0.16096404744;
+//            double traction_tangential = 0.0;
+////            true position is
+//
+//
+//          ZEROPTV traction  = {traction_radial*TrueNormal[0],traction_radial*TrueNormal[1],0};
+//
+//
+//
+//          for (int a = 0; a < n_basis_functions; a++)
+//          {
+////              check if the surrogate dot true normal is nan or zero
+//
+//                    for (int dim = 0; dim < DIM ; dim++)
+//                    {
+//                            be(a + dim) += fe.N(a) * traction[dim] * detSideJxW / SurrogateDotTrueNormal;
+//                    }
+//          }
+//
+//
+//
+//          return;
+//      }
 
 
-return;
-    if (case_type == POSITION_DISPLACEMENT){
+//    if (case_type == POSITION_DISPLACEMENT){
 
           CalcCmatrix(Cmatrix);
           CalcBe(fe, Be);
@@ -1087,8 +765,13 @@ return;
 
           // x-dir
           for (int dim = 0; dim < DIM; dim++) {
+              if(case_type == NORMAL_TRACTION) {
 
-                      D_wall_(dim) = 0;
+                  D_wall_(dim) = 0.25*TrueNormal[dim];
+              }
+                else {
+                    D_wall_(dim) = 0.0;
+                }
           }
 
 
@@ -1145,7 +828,7 @@ return;
               }
           }
           return;
-      }
+//      }
 
 
   }
@@ -1919,8 +1602,7 @@ std::cout<<idata_->mesh_def.physDomain.max[0]<<std::endl;
 
     DENDRITE_UINT getCaseType(const TALYFEMLIB::FEMElm &fe, double *d) {
         DENDRITE_UINT case_type = NORMAL_TRACTION;
-        if (idata_->SbmGeo == LEInputData::RING) {
-std::cout<<"Ring";
+//        if (idata_->SbmGeo == LEInputData::RING) {
 ////////////////////////////////////////////////////////////////////
 /////// use maximum and minimum of the mesh of the domain to obtain the center
             double x_min = idata_->mesh_def.physDomain.min[0];
@@ -1945,7 +1627,7 @@ std::cout<<"Ring";
             else {
                 case_type = POSITION_DISPLACEMENT;
             }
-        }
+//        }
         return case_type;
     }
 

@@ -207,7 +207,7 @@ void SBMCalc::Dist2Geo(double (&d)[DIM], int &geom_ID)
 
   case LEInputData::SBMGeo::RING:
   {
-
+TALYFEMLIB::PrintInfo("We are using analytical distance function for RING geometry");
     auto &geo_tmp = idata_->ibm_geom_def.at(0);
     double radius_tmp = sqrt(pow(x - geo_tmp.InitialDisplacement.x(), 2) + pow(y - geo_tmp.InitialDisplacement.y(), 2));
 
