@@ -44,35 +44,35 @@ public:
 if(input_data_->bccaseType == BCCaseType::ZERO_TRACTION){
     return;
 
-        double x_min = input_data_->mesh_def.physDomain.min[0];
-      double y_min = input_data_->mesh_def.physDomain.min[1];
-      double x_max = input_data_->mesh_def.physDomain.max[0];
-      double y_max = input_data_->mesh_def.physDomain.max[1];
-      double x_mid = (x_min + x_max) / 2;
-      double y_mid = (y_min + y_max) / 2;
-
-      double x = position.x();
-      double y = position.y();
-//////////  compute the radius at this point    ///////////////////////////
-      double radius = sqrt(pow(x - x_mid, 2) + pow(y - y_mid, 2));
-
-    if (fabs(radius-0.25)> fabs(radius-1.0))
-    {
-//        fix the displacement
-        b.addDirichlet(0, 0.0); // x-dir displacement
-        b.addDirichlet(1, 0.0); // y-dir displacement
-    }
-    else
-    {
-//        compute the normal component
-        double nx = (x - x_mid) / radius;
-        double ny = (y - y_mid) / radius;
-        double traction = 0.0;
-        b.addDirichlet(0, 0.25 * nx); // x-dir displacement
-        b.addDirichlet(1, 0.25 * ny); // y-dir displacement
-    }
-
-    return;
+//        double x_min = input_data_->mesh_def.physDomain.min[0];
+//      double y_min = input_data_->mesh_def.physDomain.min[1];
+//      double x_max = input_data_->mesh_def.physDomain.max[0];
+//      double y_max = input_data_->mesh_def.physDomain.max[1];
+//      double x_mid = (x_min + x_max) / 2;
+//      double y_mid = (y_min + y_max) / 2;
+//
+//      double x = position.x();
+//      double y = position.y();
+////////////  compute the radius at this point    ///////////////////////////
+//      double radius = sqrt(pow(x - x_mid, 2) + pow(y - y_mid, 2));
+//
+//    if (fabs(radius-0.25)> fabs(radius-1.0))
+//    {
+////        fix the displacement
+//        b.addDirichlet(0, 0.0); // x-dir displacement
+//        b.addDirichlet(1, 0.0); // y-dir displacement
+//    }
+//    else
+//    {
+////        compute the normal component
+//        double nx = (x - x_mid) / radius;
+//        double ny = (y - y_mid) / radius;
+//        double traction = 0.0;
+//        b.addDirichlet(0, 0.25 * nx); // x-dir displacement
+//        b.addDirichlet(1, 0.25 * ny); // y-dir displacement
+//    }
+//
+//    return;
 }
 
     if (input_data_->bccaseType == BCCaseType::NORMAL_TRACTION)

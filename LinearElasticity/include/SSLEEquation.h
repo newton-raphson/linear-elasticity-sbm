@@ -212,7 +212,7 @@ public:
     double BR_V = idata_->radialbodyforce.br_v;
     int BR_POW = idata_->radialbodyforce.br_pow;
 
-//      BodyForce.print();
+      assert(BodyForce.norm()<1e-10);
 
     /*
      * please write something like this so that it can support both 2D and 3D
@@ -291,7 +291,7 @@ public:
 //      if (idata_->ibm_geom_def.size() == 0) {
 //          return;
 //      }
-return;
+
 
     assert(method == IBM_METHOD::SBM);
 
@@ -453,7 +453,6 @@ else {
           CalcBe(fe, Be);
           CalcBeCmatrix(fe, Be, Cmatrix, BeCmatrix);
           CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
-CalcTrueNormalMatrix(TRUE_NORMAL, SurrogateNormalMatrix);
           CalcStressDotNormal(fe, BeCmatrix, SurrogateNormalMatrix, StressDotSurrogateNormal); // (DIM*fe.nbf()) * DIM
 
           double Ne_[DIM][DIM * n_basis_functions];
@@ -462,9 +461,6 @@ CalcTrueNormalMatrix(TRUE_NORMAL, SurrogateNormalMatrix);
           memset(Ne_con_, 0.0, sizeof Ne_con_);
 
           DENDRITE_REAL secondOrderTerm_a_(0);
-
-          //////////////////////////////////////weak//////////////////////////////////////////
-//        Adjoint Consistency in LHS is  <u + \grad u * d,C\grad w \cdot \tilde{n}>
           for (int j = 0; j < n_basis_functions; j++)
           {
               // secondOrderTerm_a = d[0] * (fe.d2N(j, 0, 0) * d[0] + fe.d2N(j, 0, 1) * d[1]) + d[1] * (fe.d2N(j, 1, 0) * d[0] + fe.d2N(j, 1, 1) * d[1]) / 2;
@@ -481,7 +477,7 @@ CalcTrueNormalMatrix(TRUE_NORMAL, SurrogateNormalMatrix);
                       if (dim2 == dim)
                       {
                           Ne_[dim][DIM * j + dim2] = fe.N(j) + gradWdotd + secondOrderTerm_a_
-                                  /*TODO: fix small issue here when we use QBF*/;
+                              /*TODO: fix small issue here when we use QBF*/;
                       }
                       else
                       {
@@ -490,26 +486,6 @@ CalcTrueNormalMatrix(TRUE_NORMAL, SurrogateNormalMatrix);
                   }
               }
           }
-
-          for (int j = 0; j < n_basis_functions; j++)
-          {
-              for (int dim = 0; dim < DIM; dim++)
-              {
-                  for (int dim2 = 0; dim2 < DIM; dim2++)
-                  {
-                      if (dim2 == dim)
-                      {
-                          Ne_con_[dim][DIM * j + dim2] = fe.N(j);
-                              /*TODO: fix small issue here when we use QBF*/;
-                      }
-                      else
-                      {
-                          Ne_con_[dim][DIM * j + dim2] = 0.0;
-                      }
-                  }
-              }
-          }
-
 
           // for Final term => B_T*C_T*n*N
           const double detJxW = fe.detJxW();
@@ -534,32 +510,31 @@ CalcTrueNormalMatrix(TRUE_NORMAL, SurrogateNormalMatrix);
               }
           }
 
-              DENDRITE_REAL  secondOrderTerm_b_(0);
+          DENDRITE_REAL  secondOrderTerm_b_(0);
 
 
           double weakBCpenaltyParameter_ = util_funcs::ReturnPenaltyParameters(idata_) * Cb_e / h;
 
-              for (int a = 0; a < fe.nbf(); a++)
-              {
+          for (int a = 0; a < fe.nbf(); a++)
+          {
 #if (DIM == 2)
-                  if (idata_->elemOrder == 2)
-          {
-            secondOrderTerm_a_ = (d[0] * (fe.d2N(a, 0, 0) * d[0] + fe.d2N(a, 0, 1) * d[1]) +
-                                 d[1] * (fe.d2N(a, 1, 0) * d[0] + fe.d2N(a, 1, 1) * d[1])) /
-                                2;
-          }
-          else
-          {
-            secondOrderTerm_a_ = 0;
-          }
+              if (idata_->elemOrder == 2)
+              {
+                  secondOrderTerm_a_ = (d[0] * (fe.d2N(a, 0, 0) * d[0] + fe.d2N(a, 0, 1) * d[1]) +
+                                        d[1] * (fe.d2N(a, 1, 0) * d[0] + fe.d2N(a, 1, 1) * d[1])) /
+                                       2;
+              }
+              else
+              {
+                  secondOrderTerm_a_ = 0;
+              }
 #endif
 
 #if (DIM == 3)
-                  if (idata_->elemOrder == 2)
+              if (idata_->elemOrder == 2)
                   {
 
                       secondOrderTerm_a_ = (d[0] * (fe.d2N(a, 0, 0) * d[0] + fe.d2N(a, 0, 1) * d[1] + fe.d2N(a, 0, 2) * d[2]) + d[1] * (fe.d2N(a, 1, 0) * d[0] + fe.d2N(a, 1, 1) * d[1] + fe.d2N(a, 1, 2) * d[2]) + d[2] * (fe.d2N(a, 2, 0) * d[0] + fe.d2N(a, 2, 1) * d[1] + fe.d2N(a, 2, 2) * d[2])) / 2;
-                      secondOrderTerm_a_ = 0;
                   }
                   else
                   {
@@ -567,29 +542,29 @@ CalcTrueNormalMatrix(TRUE_NORMAL, SurrogateNormalMatrix);
                   }
 #endif
 
-                  double gradWdotd = 0.0;
-                  for (int k = 0; k < DIM; k++)
-                  {
-                      gradWdotd += fe.dN(a, k) * d[k];
-                  }
+              double gradWdotd = 0.0;
+              for (int k = 0; k < DIM; k++)
+              {
+                  gradWdotd += fe.dN(a, k) * d[k];
+              }
 
-                  for (int b = 0; b < fe.nbf(); b++)
-                  {
+              for (int b = 0; b < fe.nbf(); b++)
+              {
 #if (DIM == 2)
-                      if (idata_->elemOrder == 2)
-            {
-              secondOrderTerm_b_ = (d[0] * (fe.d2N(b, 0, 0) * d[0] + fe.d2N(b, 0, 1) * d[1]) +
-                                   d[1] * (fe.d2N(b, 1, 0) * d[0] + fe.d2N(b, 1, 1) * d[1])) /
-                                  2;
-            }
-            else
-            {
-              secondOrderTerm_b_ = 0;
-            }
+                  if (idata_->elemOrder == 2)
+                  {
+                      secondOrderTerm_b_ = (d[0] * (fe.d2N(b, 0, 0) * d[0] + fe.d2N(b, 0, 1) * d[1]) +
+                                            d[1] * (fe.d2N(b, 1, 0) * d[0] + fe.d2N(b, 1, 1) * d[1])) /
+                                           2;
+                  }
+                  else
+                  {
+                      secondOrderTerm_b_ = 0;
+                  }
 #endif
 
 #if (DIM == 3)
-                      if (idata_->elemOrder == 2)
+                  if (idata_->elemOrder == 2)
                       {
 
                           secondOrderTerm_b_ = (d[0] * (fe.d2N(b, 0, 0) * d[0] + fe.d2N(b, 0, 1) * d[1] + fe.d2N(b, 0, 2) * d[2]) + d[1] * (fe.d2N(b, 1, 0) * d[0] + fe.d2N(b, 1, 1) * d[1] + fe.d2N(b, 1, 2) * d[2]) + d[2] * (fe.d2N(b, 2, 0) * d[0] + fe.d2N(b, 2, 1) * d[1] + fe.d2N(b, 2, 2) * d[2])) / 2;
@@ -599,23 +574,23 @@ CalcTrueNormalMatrix(TRUE_NORMAL, SurrogateNormalMatrix);
                           secondOrderTerm_b_ = 0;
                       }
 #endif
-                      double gradUdotd = 0.0;
-                      for (int k = 0; k < DIM; k++)
-                      {
-                          gradUdotd += fe.dN(b, k) * d[k];
-                      }
+                  double gradUdotd = 0.0;
+                  for (int k = 0; k < DIM; k++)
+                  {
+                      gradUdotd += fe.dN(b, k) * d[k];
+                  }
 
-                      /*
-                       *  make it j to match with what's inside Navier-Stokes
-                       */
-                      for (int j = 0; j < DIM; j++)
-                      {
-                          Ae(DIM * a + j, DIM * b + j) +=
-                                  +weakBCpenaltyParameter_ * (fe.N(a) + gradWdotd + secondOrderTerm_a_)
-                                  * (fe.N(b) + gradUdotd + secondOrderTerm_b_) * detSideJxW; // penalty
-                      }
-                  } // b loop
-              }   // a loop
+                  /*
+                   *  make it j to match with what's inside Navier-Stokes
+                   */
+                  for (int j = 0; j < DIM; j++)
+                  {
+                      Ae(DIM * a + j, DIM * b + j) +=
+                              +weakBCpenaltyParameter_ * (fe.N(a) + gradWdotd + secondOrderTerm_a_)
+                              * (fe.N(b) + gradUdotd + secondOrderTerm_b_) * detSideJxW; // penalty
+                  }
+              } // b loop
+          }   // a loop
 
 
           return;
@@ -625,7 +600,7 @@ CalcTrueNormalMatrix(TRUE_NORMAL, SurrogateNormalMatrix);
   void Integrands4side_be(const TALYFEMLIB::FEMElm &fe, const DENDRITE_UINT side_idx, const DENDRITE_UINT id, TALYFEMLIB::ZEROARRAY<double> &be)
   {
 
-return;
+
 
 //    if (idata_->ibm_geom_def.size() == 0)
 //    {
@@ -776,14 +751,11 @@ return;
 //      }
 
 
-//    if (case_type == POSITION_DISPLACEMENT){
-
           CalcCmatrix(Cmatrix);
           CalcBe(fe, Be);
           CalcBeCmatrix(fe, Be, Cmatrix, BeCmatrix);
           double SurrogateNormalMatrix[DIM][3 * (DIM - 1)];
-//          CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
-      CalcTrueNormalMatrix(TrueNormal, SurrogateNormalMatrix);
+          CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
 
           // for mid2 term => B_T*C_T*n
           std::vector<std::vector<double>> StressDotSurrogateNormal(DIM * n_basis_functions);
@@ -794,54 +766,38 @@ return;
           // Dirichlet
           ZEROPTV D_wall_;
 
-          //////////////////////////////
-
+          // x-dir
           for (int dim = 0; dim < DIM; dim++) {
-              if(case_type == NORMAL_TRACTION) {
+                if(case_type == NORMAL_TRACTION) {
 
-                  D_wall_(dim) = 0.25*TrueNormal[dim];
-
-
-              }
-              else
-              {
+                    D_wall_(dim) = 0.25*TrueNormal[dim];}
+                else{
                     D_wall_(dim) = 0.0;
                 }
           }
 
-#ifndef  NDEBUG
-//          let's print the radius and corresponding dirichlet values
-            std::ofstream dirichletfile;
-            file.open("GaussPointDirichletValues.csv", std::ios_base::app);
-            if (file.tellp() == 0)
-            {
-                file << "radius" << "," << "DirichletValue X, DirichletValue Y" << "\n";
-            }
-            file << radius <<"," << D_wall_[0]<<","<<D_wall_[1] << "\n";
-            file.close();
-#endif
+
           DENDRITE_REAL secondOrderTerm_a_(0);
           for (int a = 0; a < fe.nbf(); a++)
           {
 #if (DIM == 2)
               if (idata_->elemOrder == 2)
-        {
-          secondOrderTerm_a_ = (d[0] * (fe.d2N(a, 0, 0) * d[0] + fe.d2N(a, 0, 1) * d[1]) +
-                               d[1] * (fe.d2N(a, 1, 0) * d[0] + fe.d2N(a, 1, 1) * d[1])) /
-                              2;
-        }
-        else
-        {
-          secondOrderTerm_a_ = 0;
-        }
+              {
+                  secondOrderTerm_a_ = (d[0] * (fe.d2N(a, 0, 0) * d[0] + fe.d2N(a, 0, 1) * d[1]) +
+                                        d[1] * (fe.d2N(a, 1, 0) * d[0] + fe.d2N(a, 1, 1) * d[1])) /
+                                       2;
+              }
+              else
+              {
+                  secondOrderTerm_a_ = 0;
+              }
 #endif
 
 #if (DIM == 3)
               if (idata_->elemOrder == 2)
               {
 
-//                  secondOrderTerm_a_ = (d[0] * (fe.d2N(a, 0, 0) * d[0] + fe.d2N(a, 0, 1) * d[1] + fe.d2N(a, 0, 2) * d[2]) + d[1] * (fe.d2N(a, 1, 0) * d[0] + fe.d2N(a, 1, 1) * d[1] + fe.d2N(a, 1, 2) * d[2]) + d[2] * (fe.d2N(a, 2, 0) * d[0] + fe.d2N(a, 2, 1) * d[1] + fe.d2N(a, 2, 2) * d[2])) / 2;
-                    secondOrderTerm_a_ = 0;
+                  secondOrderTerm_a_ = (d[0] * (fe.d2N(a, 0, 0) * d[0] + fe.d2N(a, 0, 1) * d[1] + fe.d2N(a, 0, 2) * d[2]) + d[1] * (fe.d2N(a, 1, 0) * d[0] + fe.d2N(a, 1, 1) * d[1] + fe.d2N(a, 1, 2) * d[2]) + d[2] * (fe.d2N(a, 2, 0) * d[0] + fe.d2N(a, 2, 1) * d[1] + fe.d2N(a, 2, 2) * d[2])) / 2;
               }
               else
               {
@@ -873,6 +829,103 @@ return;
               }
           }
           return;
+//    if (case_type == POSITION_DISPLACEMENT){
+//
+//          CalcCmatrix(Cmatrix);
+//          CalcBe(fe, Be);
+//          CalcBeCmatrix(fe, Be, Cmatrix, BeCmatrix);
+//          double SurrogateNormalMatrix[DIM][3 * (DIM - 1)];
+//          CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
+////      CalcTrueNormalMatrix(TrueNormal, SurrogateNormalMatrix);
+//
+//          // for mid2 term => B_T*C_T*n
+//          std::vector<std::vector<double>> StressDotSurrogateNormal(DIM * n_basis_functions);
+//          CalcStressDotNormal(fe, BeCmatrix, SurrogateNormalMatrix, StressDotSurrogateNormal);
+//
+//          double weakBCpenaltyParameter_ = util_funcs::ReturnPenaltyParameters(idata_) * Cb_e / h;
+//
+//          // Dirichlet
+//          ZEROPTV D_wall_;
+//
+//          //////////////////////////////
+//
+//          for (int dim = 0; dim < DIM; dim++) {
+//              if(case_type == NORMAL_TRACTION) {
+//
+//                  D_wall_(dim) = 0.25*TrueNormal[dim];
+//
+//
+//              }
+//              else
+//              {
+//                    D_wall_(dim) = 0.0;
+//                }
+//          }
+//
+//#ifndef  NDEBUG
+////          let's print the radius and corresponding dirichlet values
+//            std::ofstream dirichletfile;
+//            file.open("GaussPointDirichletValues.csv", std::ios_base::app);
+//            if (file.tellp() == 0)
+//            {
+//                file << "radius" << "," << "DirichletValue X, DirichletValue Y" << "\n";
+//            }
+//            file << radius <<"," << D_wall_[0]<<","<<D_wall_[1] << "\n";
+//            file.close();
+//#endif
+//          DENDRITE_REAL secondOrderTerm_a_(0);
+//          for (int a = 0; a < fe.nbf(); a++)
+//          {
+//#if (DIM == 2)
+//              if (idata_->elemOrder == 2)
+//        {
+//          secondOrderTerm_a_ = (d[0] * (fe.d2N(a, 0, 0) * d[0] + fe.d2N(a, 0, 1) * d[1]) +
+//                               d[1] * (fe.d2N(a, 1, 0) * d[0] + fe.d2N(a, 1, 1) * d[1])) /
+//                              2;
+//        }
+//        else
+//        {
+//          secondOrderTerm_a_ = 0;
+//        }
+//#endif
+//
+//#if (DIM == 3)
+//              if (idata_->elemOrder == 2)
+//              {
+//
+////                  secondOrderTerm_a_ = (d[0] * (fe.d2N(a, 0, 0) * d[0] + fe.d2N(a, 0, 1) * d[1] + fe.d2N(a, 0, 2) * d[2]) + d[1] * (fe.d2N(a, 1, 0) * d[0] + fe.d2N(a, 1, 1) * d[1] + fe.d2N(a, 1, 2) * d[2]) + d[2] * (fe.d2N(a, 2, 0) * d[0] + fe.d2N(a, 2, 1) * d[1] + fe.d2N(a, 2, 2) * d[2])) / 2;
+//                    secondOrderTerm_a_ = 0;
+//              }
+//              else
+//              {
+//                  secondOrderTerm_a_ = 0;
+//              }
+//#endif
+//          }
+//
+//          for (int a = 0; a < DIM * n_basis_functions; a++)
+//          {
+//              for (int dim = 0; dim < DIM; dim++)
+//              {
+//                  be(a) +=
+//                          StressDotSurrogateNormal[a][dim] * D_wall_(dim) * detSideJxW; // adjoint
+//              }
+//          }
+//
+//          for (int a = 0; a < n_basis_functions; a++)
+//          {
+//              double gradWdotd = 0.0;
+//              for (int k = 0; k < DIM; k++)
+//              {
+//                  gradWdotd += fe.dN(a, k) * d[k];
+//              }
+//              for (int i = 0; i < DIM; i++)
+//              {
+//                  be(DIM * a + i) +=
+//                          +weakBCpenaltyParameter_ * (fe.N(a) + gradWdotd + secondOrderTerm_a_) * D_wall_(i) * detSideJxW; // penalty
+//              }
+//          }
+//          return;
 //      }
 
 
