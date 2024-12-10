@@ -411,7 +411,23 @@ namespace util_funcs
                               subDomain.domainExtents(), false, false, ndof);
     }
 
+    void performNoChangeRefinement(DA *&octDA, DomainExtents &domainExtents, DistTREE &dTree,
+                                   LEInputData &inputData, SubDomain *subdomain){
 
+            SubDomainBoundary subDomainBoundary(subdomain, octDA, domainExtents);
+            LERefine refine(octDA, dTree.getTreePartFiltered(), domainExtents, &inputData, &subDomainBoundary);
+            DA *newDA = refine.getForceRefineSubDA(dTree);
+            std::swap(newDA, octDA);
+
+
+            std::swap(newDA, octDA);
+
+            delete newDA;
+
+            subdomain->finalize(octDA, dTree.getTreePartFiltered(), domainExtents);
+
+
+    }
     int performRefinementSubDA(DA *&octDA, DomainExtents &domainExtents, DistTREE &dTree,
                                 LEInputData &inputData, SubDomain *subdomain)
     {

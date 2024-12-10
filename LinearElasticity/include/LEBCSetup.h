@@ -42,7 +42,8 @@ public:
 //      std::cout << "input_data_->bccaseType = " << input_data_->bccaseType << "\n";
 
 if(input_data_->bccaseType == BCCaseType::ZERO_TRACTION){
-//    return;
+    return;
+
         double x_min = input_data_->mesh_def.physDomain.min[0];
       double y_min = input_data_->mesh_def.physDomain.min[1];
       double x_max = input_data_->mesh_def.physDomain.max[0];
@@ -60,6 +61,15 @@ if(input_data_->bccaseType == BCCaseType::ZERO_TRACTION){
 //        fix the displacement
         b.addDirichlet(0, 0.0); // x-dir displacement
         b.addDirichlet(1, 0.0); // y-dir displacement
+    }
+    else
+    {
+//        compute the normal component
+        double nx = (x - x_mid) / radius;
+        double ny = (y - y_mid) / radius;
+        double traction = 0.0;
+        b.addDirichlet(0, 0.25 * nx); // x-dir displacement
+        b.addDirichlet(1, 0.25 * ny); // y-dir displacement
     }
 
     return;

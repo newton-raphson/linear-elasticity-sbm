@@ -237,12 +237,12 @@ TALYFEMLIB::PrintInfo("We are using analytical distance function for RING geomet
 
     double radius_gp = sqrt((x - x_mid) * (x - x_mid) + (y - y_mid) * (y - y_mid));
 
-    double y_cirlce = (y-y_mid)/radius_gp*rad + y_mid;
-    double x_cirlce = (x-x_mid)/radius_gp*rad + x_mid;
+    double y_circle = (y-y_mid)/radius_gp*rad + y_mid;
+    double x_circle = (x-x_mid)/radius_gp*rad + x_mid;
 
 
-    d[0] = x_cirlce - x;
-    d[1] = y_cirlce - y;
+    d[0] = x_circle - x;
+    d[1] = y_circle - y;
     double dist = sqrt(d[0]*d[0] + d[1]*d[1]);
     assert(fabs(dist - fabs(rad-radius_gp)) < 1e-10);
 

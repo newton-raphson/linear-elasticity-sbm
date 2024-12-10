@@ -288,9 +288,10 @@ public:
   void Integrands4side_Ae(const TALYFEMLIB::FEMElm &fe, const DENDRITE_UINT side_idx, const DENDRITE_UINT id, TALYFEMLIB::ZeroMatrix<double> &Ae) {
 
       // TODO: some integration over the boundary except for the carved out region before this (if needed)
-      if (idata_->ibm_geom_def.size() == 0) {
-          return;
-      }
+//      if (idata_->ibm_geom_def.size() == 0) {
+//          return;
+//      }
+return;
 
     assert(method == IBM_METHOD::SBM);
 
@@ -299,6 +300,10 @@ public:
     int geom_ID;
     SBMCalc sbmCalc(fe, idata_, imga_, kd_tree_);
     sbmCalc.Dist2Geo(d, geom_ID);
+
+
+    ZEROPTV TRUE_NORMAL;
+    sbmCalc.NormalofGeo(TRUE_NORMAL, d);
 
 
     /// finish: calculate d vector ======================================================================
@@ -448,6 +453,7 @@ else {
           CalcBe(fe, Be);
           CalcBeCmatrix(fe, Be, Cmatrix, BeCmatrix);
           CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
+CalcTrueNormalMatrix(TRUE_NORMAL, SurrogateNormalMatrix);
           CalcStressDotNormal(fe, BeCmatrix, SurrogateNormalMatrix, StressDotSurrogateNormal); // (DIM*fe.nbf()) * DIM
 
           double Ne_[DIM][DIM * n_basis_functions];
@@ -619,12 +625,12 @@ else {
   void Integrands4side_be(const TALYFEMLIB::FEMElm &fe, const DENDRITE_UINT side_idx, const DENDRITE_UINT id, TALYFEMLIB::ZEROARRAY<double> &be)
   {
 
+return;
 
-
-    if (idata_->ibm_geom_def.size() == 0)
-    {
-      return;
-    }
+//    if (idata_->ibm_geom_def.size() == 0)
+//    {
+//      return;
+//    }
 
     assert(method == IBM_METHOD::SBM);
 
@@ -644,7 +650,31 @@ else {
     /// geometry
     auto &geo = idata_->ibm_geom_def.at(geom_ID);
 
-    DENDRITE_UINT case_type = getCaseType(fe, d);
+//    DENDRITE_UINT case_type = getCaseType(fe, d);
+    DENDRITE_UINT case_type;
+
+      double x_min = idata_->mesh_def.physDomain.min[0];
+      double y_min = idata_->mesh_def.physDomain.min[1];
+      double x_max = idata_->mesh_def.physDomain.max[0];
+      double y_max = idata_->mesh_def.physDomain.max[1];
+      double x_mid = (x_min + x_max) / 2;
+      double y_mid = (y_min + y_max) / 2;
+
+      double x = fe.position().x();
+      double y = fe.position().y();
+//////////  compute the radius at this point    ///////////////////////////
+      double radius = sqrt(pow(x - x_mid, 2) + pow(y - y_mid, 2));
+////////////////////////////////////////////////////////////////////
+//check if radius is close to 1 or 0.25
+//if it is close to 0.25 then we have to select the TRACTION
+//if it is close to 1 then we have to select the POSITION_DISPLACEMENT
+
+      if(radius < 0.625) {
+          case_type = NORMAL_TRACTION;
+      }
+      else {
+          case_type = POSITION_DISPLACEMENT;
+      }
 
 
 
@@ -699,24 +729,24 @@ else {
 
 
 //  PRINT THE VALUE OF THE SURROGATE DOT TRUE NORMAL
-if(case_type == NORMAL_TRACTION) {
-    double traction_radial = 0.16096404744;
-    double traction_tangential = 0.0;
-//            true position is
-
-
-    ZEROPTV traction = {traction_radial * TrueNormal[0], traction_radial * TrueNormal[1], 0};
-//    std::cout<<
-
-    for (int a = 0; a < n_basis_functions; a++) {
-//              check if the surrogate dot true normal is nan or zero
-
-        for (int dim = 0; dim < DIM; dim++) {
-            be(DIM*a + dim) += fe.N(a) * traction[dim] * detSideJxW;
-        }
-    }
-}
-          return;
+//if(case_type == NORMAL_TRACTION) {
+//    double traction_radial = 0.16096404744;
+//    double traction_tangential = 0.0;
+////            true position is
+//
+//
+//    ZEROPTV traction = {traction_radial * TrueNormal[0], traction_radial * TrueNormal[1], 0};
+////    std::cout<<
+//
+//    for (int a = 0; a < n_basis_functions; a++) {
+////              check if the surrogate dot true normal is nan or zero
+//
+//        for (int dim = 0; dim < DIM; dim++) {
+//            be(DIM*a + dim) += fe.N(a) * traction[dim] * detSideJxW;
+//        }
+//    }
+//}
+//          return;
 
 //    if(case_type == NORMAL_TRACTION)
 //      {
@@ -752,7 +782,8 @@ if(case_type == NORMAL_TRACTION) {
           CalcBe(fe, Be);
           CalcBeCmatrix(fe, Be, Cmatrix, BeCmatrix);
           double SurrogateNormalMatrix[DIM][3 * (DIM - 1)];
-          CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
+//          CalcSurrogateNormalMatrix(fe, SurrogateNormalMatrix);
+      CalcTrueNormalMatrix(TrueNormal, SurrogateNormalMatrix);
 
           // for mid2 term => B_T*C_T*n
           std::vector<std::vector<double>> StressDotSurrogateNormal(DIM * n_basis_functions);
@@ -763,18 +794,32 @@ if(case_type == NORMAL_TRACTION) {
           // Dirichlet
           ZEROPTV D_wall_;
 
-          // x-dir
+          //////////////////////////////
+
           for (int dim = 0; dim < DIM; dim++) {
               if(case_type == NORMAL_TRACTION) {
 
                   D_wall_(dim) = 0.25*TrueNormal[dim];
+
+
               }
-                else {
+              else
+              {
                     D_wall_(dim) = 0.0;
                 }
           }
 
-
+#ifndef  NDEBUG
+//          let's print the radius and corresponding dirichlet values
+            std::ofstream dirichletfile;
+            file.open("GaussPointDirichletValues.csv", std::ios_base::app);
+            if (file.tellp() == 0)
+            {
+                file << "radius" << "," << "DirichletValue X, DirichletValue Y" << "\n";
+            }
+            file << radius <<"," << D_wall_[0]<<","<<D_wall_[1] << "\n";
+            file.close();
+#endif
           DENDRITE_REAL secondOrderTerm_a_(0);
           for (int a = 0; a < fe.nbf(); a++)
           {
@@ -1029,7 +1074,6 @@ private:
 
   /*
    * this normal matrix calculation is based on t_i = stress_ij * n_j
-   * the total formulation please check cheng-hau's LE presentation
    */
   void CalcSurrogateNormalMatrix(const TALYFEMLIB::FEMElm &fe, double (&SurrogateNormalMatrix)[DIM][3 * (DIM - 1)])
   {
